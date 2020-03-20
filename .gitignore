@@ -1,0 +1,6 @@
+# Library
+/node_modules
+
+# File
+yarn.
+.env
