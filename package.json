@@ -8,17 +8,30 @@
     "scripts": {
         "start:dev": "nodemon dist/index.js",
         "build:dev": "tsc --watch --preserveWatchOutput",
-        "dev": "concurrently \"npm:build:dev\" \"npm:start:dev\""
+        "dev": "concurrently \"npm:build:dev\" \"npm:start:dev\"",
+        "swagger": "yarn tsoa swagger",
+        "routes": "yarn tsoa routes",
+        "generate": "yarn swagger && yarn routes"
     },
     "devDependencies": {
+        "@types/body-parser": "^1.19.0",
+        "@types/cors": "^2.8.6",
         "@types/dotenv": "^8.2.0",
         "@types/express": "^4.17.3",
+        "@types/helmet": "^0.0.45",
+        "@types/node": "^13.9.2",
+        "@types/swagger-ui-express": "^4.1.2",
         "concurrently": "^5.1.0",
         "nodemon": "^2.0.2",
+        "tsoa": "^2.5.13",
         "typescript": "^3.8.3"
     },
     "dependencies": {
+        "body-parser": "^1.19.0",
+        "cors": "^2.8.5",
         "dotenv": "^8.2.0",
-        "express": "^4.17.1"
+        "express": "^4.17.1",
+        "helmet": "^3.21.3",
+        "swagger-ui-express": "^4.1.3"
     }
 }
