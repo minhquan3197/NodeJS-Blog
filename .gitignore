@@ -5,3 +5,4 @@
 # File
 .env
 yarn.lock
+yarn-error.log
