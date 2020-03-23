@@ -1,7 +1,23 @@
 // Library
-import * as dotenv from "dotenv";
+import * as dotenv from 'dotenv';
 
 // Dotenv
 dotenv.config();
 
-export const PORT = process.env.APP_PORT || 4000;
+export default {
+    env_server: {
+        host: process.env.APP_HOST || 'localhost',
+        port: Number(process.env.APP_PORT).valueOf() || 3000,
+    },
+    env_database: {
+        host: process.env.DB_HOST || '',
+        port: Number(process.env.DB_PORT).valueOf() || 0,
+        connection: process.env.DB_CONNECTION || 'mongodb',
+        name: process.env.DB_NAME || '',
+        username: process.env.DB_USERNAME || '',
+        password: process.env.DB_PASSWORD || '',
+    },
+    key: {
+        secret: process.env.SECRET_OR_KEY || '',
+    }
+};

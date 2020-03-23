@@ -23,7 +23,14 @@ class App {
 
     private swagger = (): void => {
         try {
-            const swaggerDocument = require('../dist/swagger.json');
+            let swaggerDocument = require('../dist/swagger.json');
+            let urlHost = swaggerDocument.servers[0].url;
+            if (urlHost.includes('https')) {
+                swaggerDocument.servers[0].url = urlHost.replace(
+                    /^https:\/\//i,
+                    'http://',
+                );
+            }
             this.app.use(
                 '/docs',
                 swaggerUi.serve,
