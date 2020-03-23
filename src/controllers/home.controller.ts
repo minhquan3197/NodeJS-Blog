@@ -1,6 +1,6 @@
 import { Controller, Get, Route, Tags } from 'tsoa';
 import { dataError, dataSuccess } from '../config/responseCustom';
-import { HomeService } from '../services/HomeService';
+import { HomeService } from '../services/home.service';
 
 @Route('/')
 @Tags('Home')
