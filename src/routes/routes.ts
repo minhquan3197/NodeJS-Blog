@@ -1,7 +1,7 @@
 import express from 'express';
-import { login } from '../controllers/auth.controller';
-import { index } from '../controllers/home.controller';
-import { checkUserExists } from '../controllers/user.controller';
+import { AuthController } from '../controllers/auth.controller';
+import { HomeController } from '../controllers/home.controller';
+import { UserController } from '../controllers/user.controller';
 import {
     checkDefault,
     checkLoggedIn,
@@ -16,7 +16,7 @@ let router = express.Router();
  */
 export const initRoutes = (app: any) => {
     // Auth
-    router.get('/', checkLoggedOut, index);
+    router.get('/', checkLoggedOut, HomeController.index);
 
     return app.use('/', router);
 };
