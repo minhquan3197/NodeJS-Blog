@@ -10,6 +10,10 @@ export interface IUser extends IUserDocument {
 export interface IUserModel extends Model<IUser> {
     hashPassword(password: string): string;
     countUser(): number;
+    createUser(data: object): IUser;
+    findUserByEmail(email: string): IUser;
+    findUserById(id: string): IUser;
+    updateUserPassword(id: string, hashedPassword: string): IUser;
 }
 
 export const UserSchema: Schema = new Schema({

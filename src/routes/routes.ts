@@ -6,7 +6,7 @@ import {
     checkDefault,
     checkLoggedIn,
     checkLoggedOut,
-} from '../middlewares/checkRoute.middleware';
+} from '../middlewares/route.middleware';
 
 let router = express.Router();
 
@@ -18,5 +18,5 @@ export const initRoutes = (app: any) => {
     // Auth
     router.get('/', checkLoggedOut, HomeController.index);
 
-    return app.use('/', router);
+    return app.use('/api/v1', router);
 };
