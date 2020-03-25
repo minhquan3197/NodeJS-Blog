@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { dataError, dataSuccess } from '../config/responseCustom';
+import { dataError, dataSuccess } from '../helpers/json.helper';
 
 export class AuthController {
     /**

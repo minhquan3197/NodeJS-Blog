@@ -1,13 +1,12 @@
 import { User } from '../models/user.model';
-export class HomeService {
+export class AuthService {
     constructor() {}
 
     /**
-     * This is function get Hello World
+     * This is function login
      */
-    checkUserExists = async (): Promise<boolean> => {
+    login = async (): Promise<boolean> => {
         const count = await User.countUser();
-        console.log(count);
         return true;
     };
 }

@@ -1,7 +1,7 @@
 import { Response, Request } from 'express';
 
 import { HomeService } from '../services/home.service';
-import { dataError, dataSuccess } from '../config/responseCustom';
+import { dataError, dataSuccess } from '../helpers/json.helper';
 
 export class HomeController {
     /**

@@ -17,11 +17,17 @@ export interface IUserModel extends Model<IUser> {
 }
 
 export const UserSchema: Schema = new Schema({
+    name: {
+        type: String,
+        required: false,
+    },
     email: {
         type: String,
         trim: true,
     },
-    password: String,
+    password: {
+        type: String,
+    },
     avatar: {
         type: String,
         default:
@@ -34,6 +40,10 @@ export const UserSchema: Schema = new Schema({
     updatedAt: {
         type: Number,
         default: null,
+    },
+    isAdmin: {
+        type: Boolean,
+        default: false,
     },
 });
 
