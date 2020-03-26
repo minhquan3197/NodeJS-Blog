@@ -9,5 +9,11 @@ export interface IBlogDocument extends Document {
     createdAt: number;
     updatedAt: number;
     categoryId: ICategoryDocument;
-    description: string;
+}
+
+export interface ICreateBlog {
+    name: string;
+    content: string;
+    image: string;
+    categoryId: string;
 }

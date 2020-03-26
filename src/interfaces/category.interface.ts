@@ -6,3 +6,8 @@ export interface ICategoryDocument extends Document {
     updatedAt: number;
     description: string;
 }
+
+export interface ICreateCategory {
+    name: string;
+    description: string;
+}

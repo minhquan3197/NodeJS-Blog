@@ -13,9 +13,6 @@ export const BlogSchema: Schema = new Schema({
     content: {
         type: String,
     },
-    description: {
-        type: String,
-    },
     image: {
         type: String,
     },
