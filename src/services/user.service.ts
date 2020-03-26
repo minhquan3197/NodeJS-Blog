@@ -8,7 +8,7 @@ export class UserService {
     /**
      * This is function check user exists in database
      */
-    checkUserExists = async (): Promise<boolean> => {
+    static checkUserExists = async (): Promise<boolean> => {
         const count = await User.countDocuments();
         return !!count;
     };
@@ -16,7 +16,7 @@ export class UserService {
     /**
      * This is function find user by id
      */
-    findUserById = async (id: string): Promise<any> => {
+    static findUserById = async (id: string): Promise<any> => {
         const user = await User.findById(id);
         if (!user) return null;
         return user;
@@ -25,7 +25,7 @@ export class UserService {
     /**
      * This is function find user by email
      */
-    findUserByEmail = async (email: string): Promise<any> => {
+    static findUserByEmail = async (email: string): Promise<any> => {
         const user = await User.findOne({ email });
         if (!user) return null;
         return user;

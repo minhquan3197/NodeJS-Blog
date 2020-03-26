@@ -15,8 +15,12 @@ let router = express.Router();
  * @param app from exactly express module
  */
 export const initRoutes = (app: any) => {
-    // Auth
+    // Home
     router.get('/', checkLoggedOut, HomeController.index);
+
+    // Auth
+    router.post('/login', checkLoggedOut, AuthController.login);
+    router.post('/register', checkDefault, AuthController.register);
 
     return app.use('/api/v1', router);
 };
