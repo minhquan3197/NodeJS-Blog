@@ -7,7 +7,7 @@ export class UserService {
      * This is function check user exists in database
      */
     checkUserExists = async (): Promise<boolean> => {
-        const count = await User.countUser();
+        const count = await User.countDocuments();
         // If have user return true
         return !!count;
     };

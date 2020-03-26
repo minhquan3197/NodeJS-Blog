@@ -8,12 +8,8 @@ export interface IUser extends IUserDocument {
 }
 
 export interface IUserModel extends Model<IUser> {
-    hashPassword(password: string): string;
-    countUser(): number;
-    createUser(data: object): IUser;
-    findUserByEmail(email: string): IUser;
-    findUserById(id: string): IUser;
-    updateUserPassword(id: string, hashedPassword: string): IUser;
+    hash(password: string): string;
+    password(id: string, hashedPassword: string): IUser;
 }
 
 export const UserSchema: Schema = new Schema({
@@ -48,22 +44,10 @@ export const UserSchema: Schema = new Schema({
 });
 
 UserSchema.statics = {
-    hashPassword(password: string): string {
+    hash(password: string): string {
         return bcrypt.hashSync(password);
     },
-    countUser(): number {
-        return this.countDocuments().exec();
-    },
-    createUser(data: object): IUser {
-        return this.create(data);
-    },
-    findUserByEmail(email: string): IUser {
-        return this.findOne({ email: email }).exec();
-    },
-    findUserById(id: string): IUser {
-        return this.findById(id).exec();
-    },
-    updateUserPassword(id: string, hashedPassword: string): IUser {
+    password(id: string, hashedPassword: string): IUser {
         return this.findOneAndUpdate(
             { _id: id },
             { password: hashedPassword },
