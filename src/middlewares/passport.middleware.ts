@@ -15,7 +15,7 @@ const opts = {
 export const initPassport = (passport: any) => {
     passport.use(
         new JwtStrategy(opts, async (jwt_payload, done) => {
-            const user = await User.findUserById(jwt_payload.id);
+            const user = await User.findById(jwt_payload.id);
             if (user) return done(null, user);
             return done(null, false);
         }),

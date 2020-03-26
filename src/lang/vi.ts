@@ -33,6 +33,7 @@ export const transErrors = {
     user: {
         avatar_type: 'Kiểu file không hợp lệ.',
         avatar_size: 'Ảnh upload tối đa cho phép là 1 MB !',
+        user_not_found: 'Tài khoản không tồn tại',
     },
     category: {
         not_found: 'Danh mục không tồn tại',
