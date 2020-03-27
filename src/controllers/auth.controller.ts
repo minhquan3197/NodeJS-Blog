@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 
+import { userFormat } from '../helpers/user.helper';
 import { AuthService } from '../services/auth.service';
 import { transErrors } from '../lang/vi';
 import { dataError, dataSuccess } from '../helpers/json.helper';
@@ -59,7 +60,7 @@ export class AuthController {
                 return res.send(
                     dataError(transErrors.auth.login_failed, null, 400),
                 );
-            const result = await AuthService.check(req.user);
+            const result = await userFormat(req.user);
             if (!result)
                 return res.send(
                     dataError(transErrors.auth.login_failed, null, 400),

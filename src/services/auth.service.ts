@@ -66,9 +66,27 @@ export class AuthService {
         return userInfo;
     }
 
-    static check(user: any): object {
-        const userInfo = user.toObject();
-        if (userInfo.password) delete userInfo.password;
-        return userInfo;
+    /**
+     * Update user password
+     * @param id
+     * @param password
+     */
+    static async updatePassword(id: string, password: string): Promise<any> {
+        // Check if user exsist database
+        const findUser = await UserService.findUserById(id);
+        if (findUser) throw new MyError(transErrors.auth.account_in_use, 400);
+
+        // Check password
+        const isMatch = await compare(password, findUser.password);
+        if (!isMatch) return false;
+
+        // Generate password
+        const hashPassword = await hash(password, 8);
+
+        // Update password
+        return await User.findOneAndUpdate(
+            { _id: id },
+            { password: hashPassword },
+        ).exec();
     }
 }

@@ -15,7 +15,7 @@ export class UserService {
 
     /**
      * This is function find user by id
-     * @param id 
+     * @param id
      */
     static async findUserById(id: string): Promise<any> {
         const user = await User.findById(id);
@@ -25,7 +25,7 @@ export class UserService {
 
     /**
      * This is function find user by email
-     * @param email 
+     * @param email
      */
     static async findUserByEmail(email: string): Promise<any> {
         const user = await User.findOne({ email });

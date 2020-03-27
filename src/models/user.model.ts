@@ -3,12 +3,9 @@ import { Schema, Model, model } from 'mongoose';
 
 import { IUserDocument } from '../interfaces/user.interface';
 
-export interface IUser extends IUserDocument {
-    comparePassword(password: string): boolean;
-}
+export interface IUser extends IUserDocument {}
 
 export interface IUserModel extends Model<IUser> {
-    hash(password: string): string;
     password(id: string, hashedPassword: string): IUser;
 }
 
@@ -44,9 +41,6 @@ export const UserSchema: Schema = new Schema({
 });
 
 UserSchema.statics = {
-    hash(password: string): string {
-        return bcrypt.hashSync(password);
-    },
     password(id: string, hashedPassword: string): IUser {
         return this.findOneAndUpdate(
             { _id: id },
@@ -55,12 +49,7 @@ UserSchema.statics = {
     },
 };
 
-UserSchema.methods = {
-    comparePassword(password: string): boolean {
-        if (bcrypt.compareSync(password, this.password)) return true;
-        return false;
-    },
-};
+UserSchema.methods = {};
 
 export const User: IUserModel = model<IUser, IUserModel>('users', UserSchema);
 
