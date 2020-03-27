@@ -4,7 +4,7 @@ export class HomeService {
     /**
      * This is function get Hello World
      */
-    getHello = (): string => {
+    static async getHello(): Promise<string> {
         return 'Hello, world';
-    };
+    }
 }

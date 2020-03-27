@@ -9,7 +9,7 @@
         "start:dev": "nodemon dist/index.js",
         "build:dev": "tsc --watch --preserveWatchOutput",
         "dev": "concurrently \"npm:build:dev\" \"npm:start:dev\"",
-        "test": "mocha -r ts-node/register src/tests/**/*.spec.ts"
+        "test": "mocha -r ts-node/register src/tests/**"
     },
     "dependencies": {
         "bcryptjs": "^2.4.3",

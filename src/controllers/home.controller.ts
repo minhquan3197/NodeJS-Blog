@@ -11,8 +11,7 @@ export class HomeController {
      */
     static async index(req: Request, res: Response): Promise<any> {
         try {
-            const homeService = new HomeService();
-            const result = await homeService.getHello();
+            const result = await HomeService.getHello();
             return res.send(dataSuccess('Ok', result));
         } catch (error) {
             return res.send(dataError(error.message || 'Bad request', null));
