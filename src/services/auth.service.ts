@@ -26,7 +26,12 @@ export class AuthService {
         if (!isMatch) return false;
 
         // Encode token
-        const payload = { id: user.id, name: user.name, avatar: user.avatar };
+        const payload = {
+            id: user.id,
+            name: user.name,
+            avatar: user.avatar,
+            email: user.email,
+        };
         const token = await sign(payload);
         return token;
     }
@@ -49,7 +54,7 @@ export class AuthService {
         let user = new User({ email, password: hashPassword });
 
         // Check if have one user exists database
-        const checkExistsdatabase = UserService.checkUserExists();
+        const checkExistsdatabase = await UserService.checkUserExists();
         if (!checkExistsdatabase) user.isAdmin = true;
 
         // Save user database
@@ -58,6 +63,12 @@ export class AuthService {
         // Return when complete reigster
         const userInfo = user.toObject();
         delete userInfo.password;
+        return userInfo;
+    }
+
+    static check(user: any): object {
+        const userInfo = user.toObject();
+        if (userInfo.password) delete userInfo.password;
         return userInfo;
     }
 }

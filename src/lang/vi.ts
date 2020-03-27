@@ -5,6 +5,7 @@ export const transValidation = {
             'Mật khẩu phải chứa ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, chữ số và ký tự đặc biệt',
         password_confirmation_incorrect: 'Nhập lại mật khẩu chưa chính xác!',
         old_password_incorrect: 'Mật khẩu cũ không hợp lệ',
+        name_incorrect: 'Tên không hợp lệ',
     },
     category: {
         name_incorrect: 'Độ dài tên không đủ',

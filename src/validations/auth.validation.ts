@@ -33,6 +33,7 @@ export const login = (dataLogin: IAuthLogin) => {
 export const register = (dataRegister: IAuthRegister) => {
     let errors = <any>{};
 
+    dataRegister.name = !isEmpty(dataRegister.name) ? dataRegister.name : '';
     dataRegister.email = !isEmpty(dataRegister.email) ? dataRegister.email : '';
     dataRegister.password = !isEmpty(dataRegister.password)
         ? dataRegister.password
@@ -45,6 +46,9 @@ export const register = (dataRegister: IAuthRegister) => {
 
     if (validator.isEmpty(dataRegister.email)) {
         errors.email = transValidation.auth.email_incorrect;
+    }
+    if (validator.isEmpty(dataRegister.name)) {
+        errors.name = transValidation.auth.name_incorrect;
     }
     if (!validator.isEmail(dataRegister.email)) {
         errors.email = transValidation.auth.email_incorrect;
