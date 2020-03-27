@@ -1,6 +1,4 @@
 import { User } from '../models/user.model';
-import { MyError } from '../helpers/error.helper';
-import { transErrors } from '../lang/vi';
 
 export class UserService {
     constructor() {}
