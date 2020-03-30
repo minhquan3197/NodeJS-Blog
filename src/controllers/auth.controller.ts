@@ -4,7 +4,6 @@ import { userFormat } from '../helpers/user.helper';
 import { AuthService } from '../services/auth.service';
 import { transErrors } from '../lang/vi';
 import { dataError, dataSuccess } from '../helpers/json.helper';
-import { changePassword } from '../validations/auth.validation';
 
 export class AuthController {
     constructor() {}
