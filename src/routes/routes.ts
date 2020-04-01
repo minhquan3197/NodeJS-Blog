@@ -19,12 +19,9 @@ export const initRoutes = (app: any) => {
     router.post('/login', AuthController.login);
     router.post('/register', AuthController.register);
 
-    // Get user
-    router.get(
-        '/auth',
-        passport.authenticate('jwt', { session: false }),
-        AuthController.auth,
-    );
+    // User
+    router.get('/auth', passport.authenticate('jwt', { session: false }), AuthController.auth);
+    router.get('/change_password', passport.authenticate('jwt', { session: false }), AuthController.changePassword);
 
     return app.use('/api/v1', router);
 };

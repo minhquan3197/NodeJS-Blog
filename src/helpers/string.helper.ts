@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 import { MyError } from './error.helper';
+import { transErrors } from '../lang/vi';
+
 export function isEmpty(value: string): boolean {
     return (
         value === undefined ||
@@ -13,6 +15,6 @@ export function checkObjectId(...ids: Array<any>) {
     try {
         ids.forEach((id: any) => new mongoose.Types.ObjectId(id.toString()));
     } catch (error) {
-        throw new MyError('Invalid Id', 400);
+        throw new MyError(transErrors.system.object_id_invalid, 400);
     }
 }

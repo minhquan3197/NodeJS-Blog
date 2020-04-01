@@ -1,11 +1,11 @@
 import { hash, compare } from 'bcryptjs';
 
 import { sign } from '../config/jwtAuth';
-import { User } from '../models/user.model';
+import { User, IUser } from '../models/user.model';
 import { MyError } from '../helpers/error.helper';
 import { transErrors } from '../lang/vi';
 import { UserService } from './user.service';
-import { IAuthLogin, IAuthRegister } from '../interfaces/auth.interface';
+import { IAuthLogin, IAuthRegister, IChangePassword } from '../interfaces/auth.interface';
 
 export class AuthService {
     constructor() {}
@@ -15,15 +15,16 @@ export class AuthService {
      * @param data
      */
     static async login(data: IAuthLogin): Promise<any> {
+        // Init variable
         const { email, password } = data;
 
-        // Check if user exsist database
+        // Get user
         const user = await UserService.findUserByEmail(email);
-        if (!user) return false;
+        if (!user) throw new MyError(transErrors.user.user_not_found);
 
-        // Check password
-        const isMatch = await compare(password, user.password);
-        if (!isMatch) return false;
+        // Compare password
+        const isMatch = await this.comparePassword(user.password, password);
+        if (!isMatch) throw new MyError(transErrors.auth.login_failed);
 
         // Encode token
         const payload = {
@@ -41,21 +42,22 @@ export class AuthService {
      * @param data
      */
     static async register(data: IAuthRegister): Promise<any> {
+        // Init variable
         const { email, password } = data;
 
-        // Check if user exsist database
-        const findUser = await UserService.findUserByEmail(email);
-        if (findUser) throw new MyError(transErrors.auth.account_in_use, 400);
+        // Get user
+        const user = await UserService.findUserByEmail(email);
+        if (!user) throw new MyError(transErrors.user.user_not_found);
 
         // Generate password
         const hashPassword = await hash(password, 8);
 
         // Create user object
-        let user = new User({ email, password: hashPassword });
+        let newUser = new User({ email, password: hashPassword });
 
-        // Check if have one user exists database
+        // Check if no one user exists system, isAdmin is true
         const checkExistsdatabase = await UserService.checkUserExists();
-        if (!checkExistsdatabase) user.isAdmin = true;
+        if (!checkExistsdatabase) newUser.isAdmin = true;
 
         // Save user database
         await user.save();
@@ -71,22 +73,32 @@ export class AuthService {
      * @param id
      * @param password
      */
-    static async updatePassword(id: string, password: string): Promise<any> {
-        // Check if user exsist database
-        const findUser = await UserService.findUserById(id);
-        if (findUser) throw new MyError(transErrors.auth.account_in_use, 400);
+    static async updatePassword(email: string, data: IChangePassword): Promise<any> {
+        // Init variable
+        const { old_password, password } = data;
 
-        // Check password
-        const isMatch = await compare(password, findUser.password);
-        if (!isMatch) return false;
+        // Get user
+        const user = await UserService.findUserByEmail(email);
+        if (!user) throw new MyError(transErrors.user.user_not_found);
+
+        // Compare password
+        const isMatch = await this.comparePassword(user.password, old_password);
+        if (!isMatch) throw new MyError(transErrors.auth.login_failed);
 
         // Generate password
         const hashPassword = await hash(password, 8);
 
         // Update password
-        return await User.findOneAndUpdate(
-            { _id: id },
-            { password: hashPassword },
-        ).exec();
+        return await User.findOneAndUpdate({ _id: user.id }, { password: hashPassword }).exec();
+    }
+
+    /**
+     * This is function compare password
+     * @param user_password
+     * @param password
+     */
+    static async comparePassword(user_password: string, password: string): Promise<boolean> {
+        const isMatch = await compare(password, user_password);
+        return !!isMatch;
     }
 }

@@ -1,4 +1,6 @@
 import { User } from '../models/user.model';
+import { MyError } from '../helpers/error.helper';
+import { transErrors } from '../lang/vi';
 
 export class UserService {
     constructor() {}
@@ -8,6 +10,7 @@ export class UserService {
      */
     static async checkUserExists(): Promise<boolean> {
         const count = await User.countDocuments();
+        if (count === undefined || count === null) throw new MyError();
         return !!count;
     }
 
@@ -17,7 +20,7 @@ export class UserService {
      */
     static async findUserById(id: string): Promise<any> {
         const user = await User.findById(id);
-        if (!user) return null;
+        if (!user) throw new MyError(transErrors.user.user_not_found, 404);
         return user;
     }
 
@@ -27,7 +30,7 @@ export class UserService {
      */
     static async findUserByEmail(email: string): Promise<any> {
         const user = await User.findOne({ email });
-        if (!user) return null;
+        if (!user) throw new MyError(transErrors.user.user_not_found, 404);
         return user;
     }
 }

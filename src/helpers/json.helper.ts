@@ -1,6 +1,8 @@
+import { transErrors, transSuccess } from '../lang/vi';
+
 export function dataSuccess(
-    message: string,
-    data: any,
+    message: string = transSuccess.system.success,
+    data: any = null,
     result_code: number = 200,
 ) {
     return {
@@ -12,8 +14,8 @@ export function dataSuccess(
 }
 
 export function dataError(
-    message: string,
-    data: any,
+    message: string = transErrors.system.server_error,
+    data: any = null,
     result_code: number = 400,
 ) {
     return {

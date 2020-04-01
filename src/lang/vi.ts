@@ -21,8 +21,7 @@ export const transValidation = {
 
 export const transErrors = {
     system: {
-        server_error:
-            'Có lỗi ở phía server, vui lòng thông báo cho bộ phận hỗ trợ. Xin cám ơn.',
+        server_error: 'Có lỗi ở phía server',
         object_id_invalid: 'Id không hợp lệ',
     },
     auth: {
@@ -45,6 +44,9 @@ export const transErrors = {
 };
 
 export const transSuccess = {
+    system: {
+        success: 'Ok',
+    },
     user: {
         user_created: (userEmail: string) => {
             return `Tài khoản <strong>${userEmail}</strong> đã được tạo thành công`;
