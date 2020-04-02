@@ -6,9 +6,9 @@
     "author": "minhquan3197 <minhquan.k0r1@gmail.com>",
     "license": "MIT",
     "scripts": {
-        "start:dev": "nodemon dist/index.js",
-        "build:dev": "tsc --watch --preserveWatchOutput",
-        "dev": "concurrently \"npm:build:dev\" \"npm:start:dev\"",
+        "start": "nodemon dist/index.js",
+        "build": "tsc --watch --preserveWatchOutput",
+        "dev": "concurrently \"npm:build\" \"npm:start\"",
         "test": "mocha -r ts-node/register src/tests/**"
     },
     "dependencies": {
@@ -23,6 +23,7 @@
         "mongoose": "^5.9.5",
         "passport": "^0.4.1",
         "passport-jwt": "^4.0.0",
+        "socket.io": "^2.3.0",
         "validator": "^13.0.0"
     },
     "devDependencies": {
@@ -40,6 +41,7 @@
         "@types/node": "^13.9.2",
         "@types/passport": "^1.0.3",
         "@types/passport-jwt": "^3.0.3",
+        "@types/socket.io": "^2.1.4",
         "@types/validator": "^12.0.1",
         "chai": "^4.2.0",
         "chai-http": "^4.3.0",

@@ -9,6 +9,7 @@ export const connectDB = (connectionString: string) => {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useFindAndModify: false,
+            useCreateIndex: true,
         })
         .then(() => console.log('Database connected'))
         .catch(error => {

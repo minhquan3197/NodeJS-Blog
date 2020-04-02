@@ -3,7 +3,6 @@ import passport from 'passport';
 
 import { AuthController } from '../controllers/auth.controller';
 import { HomeController } from '../controllers/home.controller';
-import { UserController } from '../controllers/user.controller';
 
 let router = express.Router();
 
@@ -11,7 +10,7 @@ let router = express.Router();
  * Init all routes
  * @param app from exactly express module
  */
-export const initRoutes = (app: any) => {
+export const initRoutes = (app: express.Application) => {
     // Home
     router.get('/', HomeController.index);
 
