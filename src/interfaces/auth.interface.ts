@@ -1,11 +1,11 @@
 export interface IAuthLogin {
-    email: string;
+    username: string;
     password: string;
 }
 
 export interface IAuthRegister {
     name: string;
-    email: string;
+    username: string;
     password: string;
     password_confirmation: string;
 }

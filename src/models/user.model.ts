@@ -14,17 +14,17 @@ export const UserSchema: Schema = new Schema({
         type: String,
         required: false,
     },
-    email: {
+    username: {
         type: String,
         trim: true,
+        unique: true,
     },
     password: {
         type: String,
     },
     avatar: {
         type: String,
-        default:
-            'https://res.cloudinary.com/kori/image/upload/v1545012923/no_avatar.png',
+        default: 'https://res.cloudinary.com/kori/image/upload/v1545012923/no_avatar.png',
     },
     createdAt: {
         type: Number,
@@ -34,18 +34,11 @@ export const UserSchema: Schema = new Schema({
         type: Number,
         default: null,
     },
-    isAdmin: {
-        type: Boolean,
-        default: false,
-    },
 });
 
 UserSchema.statics = {
     password(id: string, hashedPassword: string): IUser {
-        return this.findOneAndUpdate(
-            { _id: id },
-            { password: hashedPassword },
-        ).exec();
+        return this.findOneAndUpdate({ _id: id }, { password: hashedPassword }).exec();
     },
 };
 

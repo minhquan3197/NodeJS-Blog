@@ -75,17 +75,17 @@ export class AuthController {
         // Init variable
         let user;
 
-        // Get user by email
+        // Get user by username
         try {
             const result: any = await userFormat(req.user);
-            if (result) user = await UserService.findUserByEmail(result.email);
+            if (result) user = await UserService.findUserByUsername(result.username);
         } catch (error) {
             return res.send(dataError(error.message || transErrors.system.server_error));
         }
 
         // Update user password
         try {
-            const resultUpdate = await AuthService.updatePassword(user.email, req.body);
+            const resultUpdate = await AuthService.updatePassword(user.username, req.body);
             return res.send(dataSuccess(transSuccess.system.success, resultUpdate));
         } catch (error) {
             return res.send(dataError(error.message || transErrors.system.server_error));

@@ -1,7 +1,7 @@
 import { hash, compare } from 'bcryptjs';
 
 import { sign } from '../config/jwtAuth';
-import { User, IUser } from '../models/user.model';
+import { User } from '../models/user.model';
 import { MyError } from '../helpers/error.helper';
 import { transErrors } from '../lang/vi';
 import { UserService } from './user.service';
@@ -16,10 +16,10 @@ export class AuthService {
      */
     static async login(data: IAuthLogin): Promise<any> {
         // Init variable
-        const { email, password } = data;
+        const { username, password } = data;
 
         // Get user
-        const user = await UserService.findUserByEmail(email);
+        const user = await UserService.findUserByUsername(username);
         if (!user) throw new MyError(transErrors.user.user_not_found);
 
         // Compare password
@@ -31,7 +31,7 @@ export class AuthService {
             id: user.id,
             name: user.name,
             avatar: user.avatar,
-            email: user.email,
+            username: user.username,
         };
         const token = await sign(payload);
         return token;
@@ -43,24 +43,20 @@ export class AuthService {
      */
     static async register(data: IAuthRegister): Promise<any> {
         // Init variable
-        const { email, password } = data;
+        const { username, password } = data;
 
         // Get user
-        const user = await UserService.findUserByEmail(email);
-        if (!user) throw new MyError(transErrors.user.user_not_found);
+        const user = await UserService.findUserByUsername(username);
+        if (user) throw new MyError(transErrors.auth.account_in_use);
 
         // Generate password
         const hashPassword = await hash(password, 8);
 
         // Create user object
-        let newUser = new User({ email, password: hashPassword });
-
-        // Check if no one user exists system, isAdmin is true
-        const checkExistsdatabase = await UserService.checkUserExists();
-        if (!checkExistsdatabase) newUser.isAdmin = true;
+        let newUser = new User({ username, password: hashPassword });
 
         // Save user database
-        await user.save();
+        await newUser.save();
 
         // Return when complete reigster
         const userInfo = user.toObject();
@@ -73,12 +69,12 @@ export class AuthService {
      * @param id
      * @param password
      */
-    static async updatePassword(email: string, data: IChangePassword): Promise<any> {
+    static async updatePassword(username: string, data: IChangePassword): Promise<any> {
         // Init variable
         const { old_password, password } = data;
 
         // Get user
-        const user = await UserService.findUserByEmail(email);
+        const user = await UserService.findUserByUsername(username);
         if (!user) throw new MyError(transErrors.user.user_not_found);
 
         // Compare password

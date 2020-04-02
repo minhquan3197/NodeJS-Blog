@@ -6,15 +6,6 @@ export class UserService {
     constructor() {}
 
     /**
-     * This is function check user exists in database
-     */
-    static async checkUserExists(): Promise<boolean> {
-        const count = await User.countDocuments();
-        if (count === undefined || count === null) throw new MyError();
-        return !!count;
-    }
-
-    /**
      * This is function find user by id
      * @param id
      */
@@ -25,11 +16,11 @@ export class UserService {
     }
 
     /**
-     * This is function find user by email
-     * @param email
+     * This is function find user by username
+     * @param username
      */
-    static async findUserByEmail(email: string): Promise<any> {
-        const user = await User.findOne({ email });
+    static async findUserByUsername(username: string): Promise<any> {
+        const user = await User.findOne({ username });
         if (!user) throw new MyError(transErrors.user.user_not_found, 404);
         return user;
     }
