@@ -4,18 +4,19 @@ import express from 'express';
 import passport from 'passport';
 import socketIo from 'socket.io';
 import bodyParser from 'body-parser';
-import { createServer } from 'http';
+import { createServer, Server } from 'http';
 
 import config from './config/constants';
 import { connectDB } from './config/connectDatabase';
 import { initRoutes } from './routes/routes';
 import { initPassport } from './middlewares/passport.middleware';
+import { ChatEvent } from './helpers/enum.helper';
 
 export class App {
-    private app: any;
-    private server: any;
-    private io: any;
-    private port: any;
+    private app: express.Application;
+    private server: Server;
+    private io: SocketIO.Server;
+    private port: string | number;
 
     constructor() {
         this.createApp();
@@ -72,14 +73,14 @@ export class App {
             console.log('Running server on port %s', this.port);
         });
 
-        this.io.on('connect', (socket: any) => {
+        this.io.on(ChatEvent.CONNECT, (socket: any) => {
             console.log('Connected client on port %s.', this.port);
             socket.on('message', (m: any) => {
                 console.log('[server](message): %s', JSON.stringify(m));
                 this.io.emit('message', m);
             });
 
-            socket.on('disconnect', () => {
+            socket.on(ChatEvent.DISCONNECT, () => {
                 console.log('Client disconnected');
             });
         });
