@@ -1,4 +1,4 @@
-import mongoose, { mongo } from 'mongoose';
+import mongoose from 'mongoose';
 import bluebird from 'bluebird';
 
 export const connectDB = (connectionString: string) => {
