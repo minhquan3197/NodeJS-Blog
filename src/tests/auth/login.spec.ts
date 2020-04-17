@@ -1,5 +1,8 @@
-import { app } from '../../index';
+import app from '../../app';
 import request from 'supertest';
+
+import { connectDB } from '../../config/connectDatabase';
+connectDB();
 
 describe('POST /api/v1/login', () => {
     it('Should have some hello, world', async () => {

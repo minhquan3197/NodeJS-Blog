@@ -1,4 +1,13 @@
-import { App } from './app';
+import app from './app';
+import config from './config/constants';
+import { connectDB } from './config/connectDatabase';
 
-let app = new App().getApp();
-export { app };
+// Server environment
+const PORT = config.env_server.port;
+
+// Connect database
+connectDB();
+
+app.listen(PORT, () => {
+    console.log(`Server is listening on port ${PORT}`);
+});
