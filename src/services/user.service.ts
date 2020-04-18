@@ -24,4 +24,12 @@ export class UserService {
         if (!user) throw new MyError(transErrors.user.user_not_found, 404);
         return user;
     }
+
+    /**
+     * This is function check user exists in database
+     */
+    static async countUserExists(): Promise<any> {
+        const result = await User.countDocuments();
+        return result;
+    }
 }

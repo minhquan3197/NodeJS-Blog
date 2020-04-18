@@ -58,7 +58,7 @@ UserSchema.statics = {
     changePassword(id: string, hashedPassword: string): IUser {
         return this.findOneAndUpdate({ _id: id }, { password: hashedPassword }).exec();
     },
-    async comparePassword(inputPassword: string): Promise<Boolean> {
+    comparePassword(inputPassword: string): any {
         return compare(inputPassword, this.password);
     },
 };

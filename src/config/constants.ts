@@ -24,4 +24,8 @@ export default {
         secret: process.env.SECRET_OR_KEY || '',
         hash_password_length: 8,
     },
+    paginate: {
+        default_limit: 8,
+        default_page: 1,
+    },
 };

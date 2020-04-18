@@ -3,6 +3,7 @@ import passport from 'passport';
 
 import { AuthController } from '../controllers/auth.controller';
 import { HomeController } from '../controllers/home.controller';
+import { BlogController } from '../controllers/blog.controller';
 
 let router = express.Router();
 
@@ -18,9 +19,15 @@ export const initRoutes = (app: express.Application) => {
     router.post('/login', AuthController.login);
     router.post('/register', AuthController.register);
 
+    // Blog
+    router.get('/blogs', passport.authenticate('jwt', { session: false }), BlogController.index);
+
     // User
     router.get('/auth', passport.authenticate('jwt', { session: false }), AuthController.auth);
     router.get('/change_password', passport.authenticate('jwt', { session: false }), AuthController.changePassword);
+
+    // Public api fetch blog
+    router.get('/node', BlogController.index);
 
     return app.use('/api/v1', router);
 };

@@ -9,7 +9,9 @@ export interface IBlog extends Document {
     updated_at: number;
 }
 
-export interface IBlogModel extends Model<IBlog> {}
+export interface IBlogModel extends Model<IBlog> {
+    blogPaginate(pagiante: any, customFind: any, selectField: string): Promise<any>;
+}
 
 export const BlogSchema: Schema = new Schema({
     name: {
@@ -39,7 +41,18 @@ export const BlogSchema: Schema = new Schema({
     },
 });
 
-BlogSchema.statics = {};
+BlogSchema.statics = {
+    blogPaginate(paginate: any, customFind: object, selectField: string): Promise<any> {
+        const { limit, page } = paginate;
+        let query = this.find(customFind);
+        if (selectField) query.select(customFind);
+        return query
+            .sort({ _id: -1 })
+            .populate('users', { name: 'name' })
+            .skip(limit * page - limit)
+            .limit(limit);
+    },
+};
 
 export const Blog: IBlogModel = model<IBlog, IBlogModel>('blogs', BlogSchema);
 

@@ -8,3 +8,8 @@ export enum ENVIRONMENT_TYPE {
     PROD = 'production',
     DEV = 'development',
 }
+
+export enum BLOG_STATUS {
+    INACTIVE = 0,
+    ACTIVE = 1,
+}
