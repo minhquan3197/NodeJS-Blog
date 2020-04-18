@@ -1,7 +1,11 @@
 import mongoose from 'mongoose';
-import { MyError } from './error.helper';
+import { MyError } from './error.util';
 import { transErrors } from '../lang/vi';
 
+/**
+ * This is function check empty variable
+ * @param value
+ */
 export function isEmpty(value: string): boolean {
     return (
         value === undefined ||
@@ -11,6 +15,10 @@ export function isEmpty(value: string): boolean {
     );
 }
 
+/**
+ * This is function check object by id
+ * @param ids
+ */
 export function checkObjectId(...ids: Array<any>) {
     try {
         ids.forEach((id: any) => new mongoose.Types.ObjectId(id.toString()));

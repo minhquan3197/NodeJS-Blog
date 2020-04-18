@@ -1,7 +1,7 @@
 import validator from 'validator';
 
 import { IAuthLogin, IAuthRegister, IChangePassword } from '../interfaces/auth.interface';
-import { isEmpty } from '../helpers/string.helper';
+import { isEmpty } from '../utils/string.util';
 import { transValidation } from '../lang/vi';
 
 export const login = (dataLogin: IAuthLogin) => {

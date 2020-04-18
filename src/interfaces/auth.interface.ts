@@ -11,6 +11,7 @@ export interface IAuthRegister {
 }
 
 export interface IChangePassword {
+    username: string;
     password: string;
     old_password: string;
     password_confirmation: string;

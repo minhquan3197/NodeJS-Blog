@@ -12,6 +12,10 @@ const opts = {
     secretOrKey: Keys,
 };
 
+/**
+ * This is function verify token with passport
+ * @param passport
+ */
 export const initPassport = (passport: any) => {
     passport.use(
         new JwtStrategy(opts, async (jwt_payload, done) => {

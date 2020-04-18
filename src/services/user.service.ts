@@ -1,5 +1,5 @@
 import { User } from '../models/user.model';
-import { MyError } from '../helpers/error.helper';
+import { MyError } from '../utils/error.util';
 import { transErrors } from '../lang/vi';
 
 export class UserService {

@@ -1,10 +1,9 @@
-import { hash, compare } from 'bcryptjs';
-
-import { sign } from '../config/jwtAuth';
-import { User } from '../models/user.model';
-import { MyError } from '../helpers/error.helper';
 import { transErrors } from '../lang/vi';
+import { User } from '../models/user.model';
+import { sign } from '../helpers/jwt.helper';
 import { UserService } from './user.service';
+import { hash } from '../helpers/auth.helper';
+import { MyError } from '../utils/error.util';
 import { IAuthLogin, IAuthRegister, IChangePassword } from '../interfaces/auth.interface';
 
 export class AuthService {
@@ -15,7 +14,6 @@ export class AuthService {
      * @param data
      */
     static async login(data: IAuthLogin): Promise<any> {
-        // Init variable
         const { username, password } = data;
 
         // Get user
@@ -23,7 +21,7 @@ export class AuthService {
         if (!user) throw new MyError(transErrors.user.user_not_found);
 
         // Compare password
-        const isMatch = await this.comparePassword(user.password, password);
+        const isMatch = await User.comparePassword(password);
         if (!isMatch) throw new MyError(transErrors.auth.login_failed);
 
         // Encode token
@@ -50,7 +48,7 @@ export class AuthService {
         if (user) throw new MyError(transErrors.auth.account_in_use);
 
         // Generate password
-        const hashPassword = await hash(password, 8);
+        const hashPassword = await hash(password);
 
         // Create user object
         let newUser = new User({ username, password: hashPassword });
@@ -69,32 +67,23 @@ export class AuthService {
      * @param id
      * @param password
      */
-    static async updatePassword(username: string, data: IChangePassword): Promise<any> {
+    static async updatePassword(data: IChangePassword): Promise<any> {
         // Init variable
-        const { old_password, password } = data;
+        const { old_password, password, username } = data;
 
         // Get user
         const user = await UserService.findUserByUsername(username);
         if (!user) throw new MyError(transErrors.user.user_not_found);
 
         // Compare password
-        const isMatch = await this.comparePassword(user.password, old_password);
+        const isMatch = await User.comparePassword(old_password);
         if (!isMatch) throw new MyError(transErrors.auth.login_failed);
 
         // Generate password
-        const hashPassword = await hash(password, 8);
+        const hashPassword = await hash(password);
 
         // Update password
-        return await User.findOneAndUpdate({ _id: user.id }, { password: hashPassword }).exec();
-    }
-
-    /**
-     * This is function compare password
-     * @param user_password
-     * @param password
-     */
-    static async comparePassword(user_password: string, password: string): Promise<boolean> {
-        const isMatch = await compare(password, user_password);
-        return !!isMatch;
+        const updatedPassword = await User.changePassword(user.id, hashPassword);
+        return updatedPassword;
     }
 }

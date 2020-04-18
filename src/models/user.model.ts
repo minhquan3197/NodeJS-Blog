@@ -1,12 +1,20 @@
-import * as bcrypt from 'bcryptjs';
-import { Schema, Model, model } from 'mongoose';
+import { Schema, Model, model, Document } from 'mongoose';
 
-import { IUserDocument } from '../interfaces/user.interface';
+import { compare } from '../helpers/auth.helper';
 
-export interface IUser extends IUserDocument {}
+export interface IUser extends Document {
+    name: string;
+    username: string;
+    password: string;
+    avatar: string;
+    is_admin: boolean;
+    created_at: number;
+    updated_at: number;
+}
 
 export interface IUserModel extends Model<IUser> {
-    password(id: string, hashedPassword: string): IUser;
+    changePassword(id: string, hashedPassword: string): IUser;
+    comparePassword(inputPassword: string): Boolean;
 }
 
 export const UserSchema: Schema = new Schema({
@@ -26,23 +34,34 @@ export const UserSchema: Schema = new Schema({
         type: String,
         default: 'https://res.cloudinary.com/kori/image/upload/v1545012923/no_avatar.png',
     },
-    createdAt: {
+    blogs: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'blogs',
+        },
+    ],
+    created_at: {
         type: Number,
         default: Date.now,
     },
-    updatedAt: {
+    updated_at: {
         type: Number,
         default: null,
+    },
+    is_admin: {
+        type: Boolean,
+        default: false,
     },
 });
 
 UserSchema.statics = {
-    password(id: string, hashedPassword: string): IUser {
+    changePassword(id: string, hashedPassword: string): IUser {
         return this.findOneAndUpdate({ _id: id }, { password: hashedPassword }).exec();
     },
+    async comparePassword(inputPassword: string): Promise<Boolean> {
+        return compare(inputPassword, this.password);
+    },
 };
-
-UserSchema.methods = {};
 
 export const User: IUserModel = model<IUser, IUserModel>('users', UserSchema);
 

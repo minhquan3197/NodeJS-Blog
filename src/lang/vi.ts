@@ -6,6 +6,12 @@ export const transValidation = {
         old_password_incorrect: 'Mật khẩu cũ không hợp lệ',
         name_incorrect: 'Tên không hợp lệ',
     },
+    blog: {
+        name_incorrect: 'Độ dài tên không đủ',
+        content_incorrect: 'Độ dài nội dùng không đủ',
+        image_incorrect: 'Độ dài ảnh không đủ',
+        category_incorrect: 'Chưa chọn danh mục',
+    },
 };
 
 export const transErrors = {
@@ -23,6 +29,9 @@ export const transErrors = {
         avatar_type: 'Kiểu file không hợp lệ.',
         avatar_size: 'Ảnh upload tối đa cho phép là 1 MB !',
         user_not_found: 'Tài khoản không tồn tại',
+    },
+    blog: {
+        not_found: 'Bài viết không tồn tại',
     },
 };
 
@@ -42,5 +51,16 @@ export const transSuccess = {
             return `Xin chào ${username}, chúc bạn một ngày tốt lành.`;
         },
         logout_success: 'Đăng xuất tài khoản thành công, hẹn gặp lại bạn :)',
+    },
+    blog: {
+        blog_created: (name: string) => {
+            return `Bài viết <strong>${name}</strong> đã được tạo thành công`;
+        },
+        blog_updated: (name: string) => {
+            return `Bài viết <strong>${name}</strong> đã được cập nhật thành công`;
+        },
+        blog_deleted: (name: string) => {
+            return `Xóa bài viết <strong>${name}</strong> thành công`;
+        },
     },
 };

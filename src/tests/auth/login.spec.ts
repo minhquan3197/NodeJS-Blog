@@ -1,7 +1,7 @@
 import app from '../../app';
 import request from 'supertest';
 
-import { connectDB } from '../../config/connectDatabase';
+import { connectDB } from '../../config/connect_database';
 connectDB();
 
 describe('POST /api/v1/login', () => {
