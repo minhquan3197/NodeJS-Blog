@@ -7,8 +7,8 @@ import { transErrors, transSuccess } from '../lang/vi';
  * @param result_code
  */
 export function dataSuccess(
-    message: string = transSuccess.system.success,
     data: any = null,
+    message: string = transSuccess.system.success,
     result_code: number = 200,
 ) {
     return {

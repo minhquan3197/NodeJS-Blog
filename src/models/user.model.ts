@@ -15,6 +15,8 @@ export interface IUser extends Document {
 export interface IUserModel extends Model<IUser> {
     changePassword(id: string, hashedPassword: string): IUser;
     comparePassword(inputPassword: string): Boolean;
+    pushBlogToUserBlogs(id: string, blogId: string): any;
+    pullBlogFromUser(id: string, blogId: string): any;
 }
 
 export const UserSchema: Schema = new Schema({
@@ -60,6 +62,12 @@ UserSchema.statics = {
     },
     comparePassword(inputPassword: string): any {
         return compare(inputPassword, this.password);
+    },
+    pushBlogToUserBlogs(id: string, blogId: string): any {
+        return this.findOneAndUpdate({ _id: id }, { $push: { blogs: blogId } }).exec();
+    },
+    pullBlogFromUser(id: string, blogId: string): any {
+        return this.findOneAndUpdate({ _id: id }, { $pull: { blogs: blogId } }).exec();
     },
 };
 

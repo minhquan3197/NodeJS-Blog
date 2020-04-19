@@ -1,11 +1,4 @@
-export interface ICreateBlog {
-    name: string;
-    content: string;
-    image: string;
-}
-
-export interface IUpdateBlog {
-    id: string;
+export interface IBlogInput {
     name: string;
     content: string;
     image: string;

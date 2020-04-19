@@ -16,6 +16,7 @@ export const sign = (obj: object) => {
 
 /**
  * This is function verify token
+ * If you use passport, you can not use this function
  * @param token
  */
 export const verify = (token: string) => {

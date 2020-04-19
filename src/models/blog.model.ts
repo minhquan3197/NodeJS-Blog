@@ -10,7 +10,8 @@ export interface IBlog extends Document {
 }
 
 export interface IBlogModel extends Model<IBlog> {
-    blogPaginate(pagiante: any, customFind: any, selectField: string): Promise<any>;
+    blogPaginate(pagiante: any, customFind: any, selectField: string): any;
+    changeStatus(idBlog: string): any;
 }
 
 export const BlogSchema: Schema = new Schema({
@@ -42,7 +43,7 @@ export const BlogSchema: Schema = new Schema({
 });
 
 BlogSchema.statics = {
-    blogPaginate(paginate: any, customFind: object, selectField: string): Promise<any> {
+    blogPaginate(paginate: any, customFind: object, selectField: string): any {
         const { limit, page } = paginate;
         let query = this.find(customFind);
         if (selectField) query.select(customFind);
@@ -51,6 +52,9 @@ BlogSchema.statics = {
             .populate('users', { name: 'name' })
             .skip(limit * page - limit)
             .limit(limit);
+    },
+    changeStatus(id: string): any {
+        return this.findOneAndUpdate({ _id: id }, { $set: { status: !this.status } }).exec();
     },
 };
 

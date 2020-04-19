@@ -1,19 +1,21 @@
 import validator from 'validator';
 
-import { IAuthLogin, IAuthRegister, IChangePassword } from '../interfaces/auth.interface';
+import { IAuthLoginInput, IAuthRegisterInput, IChangePasswordInput } from '../interfaces/auth.interface';
 import { isEmpty } from '../utils/string.util';
 import { transValidation } from '../lang/vi';
 
-export const login = (dataLogin: IAuthLogin) => {
+export const login = (dataLogin: IAuthLoginInput) => {
     let errors = <any>{};
 
-    dataLogin.username = !isEmpty(dataLogin.username) ? dataLogin.username : '';
-    dataLogin.password = !isEmpty(dataLogin.password) ? dataLogin.password : '';
+    let { username, password } = dataLogin;
 
-    if (validator.isEmpty(dataLogin.username)) {
+    username = !isEmpty(username) ? username : '';
+    password = !isEmpty(password) ? password : '';
+
+    if (validator.isEmpty(username)) {
         errors.username = transValidation.auth.username_incorrect;
     }
-    if (validator.isEmpty(dataLogin.password)) {
+    if (validator.isEmpty(password)) {
         errors.password = transValidation.auth.password_incorrect;
     }
 
@@ -23,32 +25,32 @@ export const login = (dataLogin: IAuthLogin) => {
     };
 };
 
-export const register = (dataRegister: IAuthRegister) => {
+export const register = (dataRegister: IAuthRegisterInput) => {
     let errors = <any>{};
 
-    dataRegister.name = !isEmpty(dataRegister.name) ? dataRegister.name : '';
-    dataRegister.username = !isEmpty(dataRegister.username) ? dataRegister.username : '';
-    dataRegister.password = !isEmpty(dataRegister.password) ? dataRegister.password : '';
-    dataRegister.password_confirmation = !isEmpty(dataRegister.password_confirmation)
-        ? dataRegister.password_confirmation
-        : '';
+    let { name, username, password, password_confirmation } = dataRegister;
 
-    if (validator.isEmpty(dataRegister.username)) {
+    name = !isEmpty(name) ? name : '';
+    username = !isEmpty(username) ? username : '';
+    password = !isEmpty(password) ? password : '';
+    password_confirmation = !isEmpty(password_confirmation) ? password_confirmation : '';
+
+    if (validator.isEmpty(username)) {
         errors.username = transValidation.auth.username_incorrect;
     }
-    if (validator.isEmpty(dataRegister.name)) {
+    if (validator.isEmpty(name)) {
         errors.name = transValidation.auth.name_incorrect;
     }
-    if (validator.isEmpty(dataRegister.password)) {
+    if (validator.isEmpty(password)) {
         errors.password = transValidation.auth.password_incorrect;
     }
-    if (!validator.isLength(dataRegister.password, { min: 6, max: 30 })) {
+    if (!validator.isLength(password, { min: 6, max: 30 })) {
         errors.password = transValidation.auth.password_incorrect;
     }
-    if (validator.isEmpty(dataRegister.password_confirmation)) {
+    if (validator.isEmpty(password_confirmation)) {
         errors.password_confirmation = transValidation.auth.password_confirmation_incorrect;
     }
-    if (!validator.equals(dataRegister.password, dataRegister.password_confirmation)) {
+    if (!validator.equals(password, password_confirmation)) {
         errors.password_confirmation = transValidation.auth.password_confirmation_incorrect;
     }
 
@@ -58,28 +60,28 @@ export const register = (dataRegister: IAuthRegister) => {
     };
 };
 
-export const changePassword = (dataChangePassword: IChangePassword) => {
+export const changePassword = (dataChangePassword: IChangePasswordInput) => {
     let errors = <any>{};
 
-    dataChangePassword.old_password = !isEmpty(dataChangePassword.old_password) ? dataChangePassword.old_password : '';
-    dataChangePassword.password = !isEmpty(dataChangePassword.password) ? dataChangePassword.password : '';
-    dataChangePassword.password_confirmation = !isEmpty(dataChangePassword.password_confirmation)
-        ? dataChangePassword.password_confirmation
-        : '';
+    let { old_password, password_confirmation, password } = dataChangePassword;
 
-    if (validator.isEmpty(dataChangePassword.old_password)) {
+    old_password = !isEmpty(old_password) ? old_password : '';
+    password = !isEmpty(password) ? password : '';
+    password_confirmation = !isEmpty(password_confirmation) ? password_confirmation : '';
+
+    if (validator.isEmpty(old_password)) {
         errors.username = transValidation.auth.old_password_incorrect;
     }
-    if (validator.isEmpty(dataChangePassword.password)) {
+    if (validator.isEmpty(password)) {
         errors.password = transValidation.auth.password_incorrect;
     }
-    if (!validator.isLength(dataChangePassword.password, { min: 6, max: 30 })) {
+    if (!validator.isLength(password, { min: 6, max: 30 })) {
         errors.password = transValidation.auth.password_incorrect;
     }
-    if (validator.isEmpty(dataChangePassword.password_confirmation)) {
+    if (validator.isEmpty(password_confirmation)) {
         errors.password_confirmation = transValidation.auth.password_confirmation_incorrect;
     }
-    if (!validator.equals(dataChangePassword.password, dataChangePassword.password_confirmation)) {
+    if (!validator.equals(password, password_confirmation)) {
         errors.password_confirmation = transValidation.auth.password_confirmation_incorrect;
     }
 

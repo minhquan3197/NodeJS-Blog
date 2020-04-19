@@ -10,7 +10,6 @@ export const transValidation = {
         name_incorrect: 'Độ dài tên không đủ',
         content_incorrect: 'Độ dài nội dùng không đủ',
         image_incorrect: 'Độ dài ảnh không đủ',
-        category_incorrect: 'Chưa chọn danh mục',
     },
 };
 
@@ -24,6 +23,7 @@ export const transErrors = {
         login_failed: 'Sai tài khoản hoặc mật khẩu !',
         user_current_password_failed: 'Mật khẩu hiện tại không đúng',
         account_undefined: 'Tài khoản không tồn tại',
+        permission_error: 'Bạn không có quyền cho chức năng này',
     },
     user: {
         avatar_type: 'Kiểu file không hợp lệ.',

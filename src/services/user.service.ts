@@ -29,7 +29,24 @@ export class UserService {
      * This is function check user exists in database
      */
     static async countUserExists(): Promise<any> {
-        const result = await User.countDocuments();
-        return result;
+        return await User.countDocuments();
+    }
+
+    /**
+     * This is function push item to user
+     * @param idUser
+     * @param idItem
+     */
+    static async pushItemToUser(idUser: string, idItem: string): Promise<any> {
+        return await User.pushBlogToUserBlogs(idUser, idItem);
+    }
+
+    /**
+     * This is function push item to user
+     * @param idUser
+     * @param idItem
+     */
+    static async pullItemFromUser(idUser: string, idItem: string): Promise<any> {
+        return await User.pullBlogFromUser(idUser, idItem);
     }
 }

@@ -1,5 +1,8 @@
+import { transErrors } from '../lang/vi';
 import config from '../config/constants';
 import { Blog } from '../models/blog.model';
+import { UserService } from './user.service';
+import { MyError } from '../utils/error.util';
 
 export class BlogService {
     constructor() {}
@@ -37,6 +40,64 @@ export class BlogService {
             total_page: Math.ceil(totalItem / limit),
             total_item: totalItem,
         };
+        return result;
+    }
+
+    /**
+     * This is function remove blog
+     */
+    static async createBlog(data: any): Promise<any> {
+        const { name, content, image, userId } = data;
+        const item = {
+            name: name,
+            content: content,
+            image: image,
+            created_by: userId,
+        };
+        const blog = await Blog.create(item);
+        await UserService.pushItemToUser(userId, blog._id);
+        return blog;
+    }
+
+    /**
+     * This is function update blog
+     */
+    static async updateBlog(blogId: string, item: any): Promise<any> {
+        item.updated_at = Date.now();
+        const result = await Blog.findOneAndUpdate({ _id: blogId }, item).exec();
+        if (!result) throw new MyError(transErrors.blog.not_found, 404);
+        return result;
+    }
+
+    /**
+     * This is function get detail blog
+     */
+    static async detailBlog(id: string, options: any): Promise<any> {
+        const status = options.status || false;
+        let query: any = {
+            _id: id,
+        };
+        if (status) query.status = true;
+        const result = await Blog.findOne(query).exec();
+        if (!result) throw new MyError(transErrors.blog.not_found, 404);
+        return result;
+    }
+
+    /**
+     * This is function remove blog
+     */
+    static async removeBlog(id: string): Promise<any> {
+        const result = await Blog.findOneAndRemove({ _id: id }).exec();
+        if (!result) throw new MyError(transErrors.blog.not_found, 404);
+        return result;
+    }
+
+    /**
+     * This is function get detail blog
+     */
+    static async changeStatusBlog(id: string): Promise<any> {
+        const result = await Blog.changeStatus(id);
+        if (!result) throw new MyError(transErrors.blog.not_found, 404);
         return result;
     }
 
