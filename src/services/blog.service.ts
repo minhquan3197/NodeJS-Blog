@@ -46,8 +46,8 @@ export class BlogService {
     /**
      * This is function remove blog
      */
-    static async createBlog(data: any): Promise<any> {
-        const { name, content, image, userId } = data;
+    static async createBlog(userId: string, data: any): Promise<any> {
+        const { name, content, image } = data;
         const item = {
             name: name,
             content: content,

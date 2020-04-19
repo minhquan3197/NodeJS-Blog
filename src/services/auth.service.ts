@@ -4,7 +4,7 @@ import { sign } from '../helpers/jwt.helper';
 import { UserService } from './user.service';
 import { hash } from '../helpers/auth.helper';
 import { MyError } from '../utils/error.util';
-import { IAuthLogin, IAuthRegister, IChangePassword } from '../interfaces/auth.interface';
+import { IAuthLoginInput, IAuthRegisterInput, IChangePasswordInput } from '../interfaces/auth.interface';
 
 export class AuthService {
     constructor() {}
@@ -13,7 +13,7 @@ export class AuthService {
      * This is function login
      * @param data
      */
-    static async login(data: IAuthLogin): Promise<any> {
+    static async login(data: IAuthLoginInput): Promise<any> {
         const { username, password } = data;
 
         // Get user
@@ -39,7 +39,7 @@ export class AuthService {
      * This is function register
      * @param data
      */
-    static async register(data: IAuthRegister): Promise<any> {
+    static async register(data: IAuthRegisterInput): Promise<any> {
         // Init variable
         const { username, password } = data;
 
@@ -76,7 +76,7 @@ export class AuthService {
      * @param id
      * @param password
      */
-    static async updatePassword(data: IChangePassword): Promise<any> {
+    static async updatePassword(data: IChangePasswordInput): Promise<any> {
         // Init variable
         const { old_password, password, username } = data;
 
