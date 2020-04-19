@@ -32,7 +32,7 @@ export const connectDB = () => {
             useFindAndModify: false,
             useCreateIndex: true,
         })
-        .then(() => console.log('Database connected'))
+        .then(() => {})
         .catch(error => {
             console.log(error.message);
             process.exit(1);

@@ -28,7 +28,7 @@ export const initRoutes = (app: express.Application) => {
 
     // User
     router.get('/auth', passport.authenticate('jwt', { session: false }), AuthController.auth);
-    router.get('/change_password', passport.authenticate('jwt', { session: false }), AuthController.changePassword);
+    router.post('/change_password', passport.authenticate('jwt', { session: false }), AuthController.changePassword);
 
     // Public api fetch blog
     router.get('/node', BlogController.index);

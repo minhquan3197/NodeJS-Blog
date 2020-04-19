@@ -18,10 +18,9 @@ export class AuthService {
 
         // Get user
         const user = await UserService.findUserByUsername(username);
-        if (!user) throw new MyError(transErrors.user.user_not_found);
-
+        if (!user) throw new MyError(transErrors.auth.login_failed);
         // Compare password
-        const isMatch = await User.comparePassword(password);
+        const isMatch = await User.comparePassword(password, user.password);
         if (!isMatch) throw new MyError(transErrors.auth.login_failed);
 
         // Encode token
@@ -42,7 +41,6 @@ export class AuthService {
     static async register(data: IAuthRegisterInput): Promise<any> {
         // Init variable
         const { username, password } = data;
-
         // Get user
         const user = await UserService.findUserByUsername(username);
         if (user) throw new MyError(transErrors.auth.account_in_use);
@@ -63,12 +61,7 @@ export class AuthService {
         let newUser = new User(item);
 
         // Save user database
-        await newUser.save();
-
-        // Return when complete reigster
-        const userInfo = user.toObject();
-        delete userInfo.password;
-        return userInfo;
+        return await newUser.save();
     }
 
     /**
@@ -76,17 +69,17 @@ export class AuthService {
      * @param id
      * @param password
      */
-    static async updatePassword(data: IChangePasswordInput): Promise<any> {
+    static async updatePassword(user_id: string, data: IChangePasswordInput): Promise<any> {
         // Init variable
-        const { old_password, password, username } = data;
+        const { old_password, password } = data;
 
         // Get user
-        const user = await UserService.findUserByUsername(username);
+        const user = await UserService.findUserById(user_id);
         if (!user) throw new MyError(transErrors.user.user_not_found);
 
         // Compare password
-        const isMatch = await User.comparePassword(old_password);
-        if (!isMatch) throw new MyError(transErrors.auth.login_failed);
+        const isMatch = await User.comparePassword(old_password, user.password);
+        if (!isMatch) throw new MyError(transErrors.auth.user_current_password_failed);
 
         // Generate password
         const hashPassword = await hash(password);

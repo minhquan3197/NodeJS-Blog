@@ -11,7 +11,7 @@ export class UserService {
      */
     static async findUserById(id: string): Promise<any> {
         const user = await User.findById(id);
-        if (!user) throw new MyError(transErrors.user.user_not_found, 404);
+        if (!user) return null;
         return user;
     }
 
@@ -21,7 +21,7 @@ export class UserService {
      */
     static async findUserByUsername(username: string): Promise<any> {
         const user = await User.findOne({ username });
-        if (!user) throw new MyError(transErrors.user.user_not_found, 404);
+        if (!user) return null;
         return user;
     }
 

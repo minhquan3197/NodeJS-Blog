@@ -11,7 +11,6 @@ export interface IAuthRegisterInput {
 }
 
 export interface IChangePasswordInput {
-    username: string;
     password: string;
     old_password: string;
     password_confirmation: string;

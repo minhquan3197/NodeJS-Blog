@@ -70,7 +70,7 @@ export const changePassword = (dataChangePassword: IChangePasswordInput) => {
     password_confirmation = !isEmpty(password_confirmation) ? password_confirmation : '';
 
     if (validator.isEmpty(old_password)) {
-        errors.username = transValidation.auth.old_password_incorrect;
+        errors.old_password = transValidation.auth.old_password_incorrect;
     }
     if (validator.isEmpty(password)) {
         errors.password = transValidation.auth.password_incorrect;
