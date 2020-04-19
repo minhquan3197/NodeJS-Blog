@@ -1,8 +1,8 @@
 import validator from 'validator';
 
 import { IAuthLoginInput, IAuthRegisterInput, IChangePasswordInput } from '../interfaces/auth.interface';
-import { isEmpty } from '../utils/string.util';
-import { transValidation } from '../lang/vi';
+import { isEmpty } from '../utils/function.util';
+import { transValidation } from '../lang/en';
 
 export const login = (dataLogin: IAuthLoginInput) => {
     let errors = <any>{};

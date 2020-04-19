@@ -1,4 +1,4 @@
-import { transErrors } from '../lang/vi';
+import { transErrors } from '../lang/en';
 
 /**
  * This is class custom error

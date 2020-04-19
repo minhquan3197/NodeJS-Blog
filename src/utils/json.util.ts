@@ -1,4 +1,4 @@
-import { transErrors, transSuccess } from '../lang/vi';
+import { transErrors, transSuccess } from '../lang/en';
 
 /**
  * This is function return sucesss

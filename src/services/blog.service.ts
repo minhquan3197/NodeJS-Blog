@@ -1,4 +1,4 @@
-import { transErrors } from '../lang/vi';
+import { transErrors } from '../lang/en';
 import config from '../config/constants';
 import { Blog } from '../models/blog.model';
 import { UserService } from './user.service';

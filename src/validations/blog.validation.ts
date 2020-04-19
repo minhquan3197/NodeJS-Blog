@@ -1,7 +1,7 @@
 import validator from 'validator';
 
-import { transValidation } from '../lang/vi';
-import { isEmpty } from '../utils/string.util';
+import { transValidation } from '../lang/en';
+import { isEmpty } from '../utils/function.util';
 import { IBlogInput } from '../interfaces/blog.interface';
 
 export const blogInput = (dataBlog: IBlogInput) => {

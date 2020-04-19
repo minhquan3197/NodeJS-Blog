@@ -1,6 +1,6 @@
 import { Response, Request } from 'express';
 
-import { transErrors } from '../lang/vi';
+import { transErrors } from '../lang/en';
 import { BlogService } from '../services/blog.service';
 import { blogInput } from '../validations/blog.validation';
 import { dataError, dataSuccess } from '../utils/json.util';

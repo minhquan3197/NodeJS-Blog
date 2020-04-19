@@ -1,4 +1,4 @@
-import { transErrors } from '../lang/vi';
+import { transErrors } from '../lang/en';
 import { User } from '../models/user.model';
 import { sign } from '../helpers/jwt.helper';
 import { UserService } from './user.service';
