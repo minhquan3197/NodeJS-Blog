@@ -50,8 +50,17 @@ export class AuthService {
         // Generate password
         const hashPassword = await hash(password);
 
+        let item: any = {
+            username,
+            password: hashPassword,
+        };
+
+        // Check if not have user in database
+        const check = await UserService.countUserExists();
+        if (!check) item.is_admin = true;
+
         // Create user object
-        let newUser = new User({ username, password: hashPassword });
+        let newUser = new User(item);
 
         // Save user database
         await newUser.save();
