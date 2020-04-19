@@ -22,7 +22,7 @@ export interface IUserModel extends Model<IUser> {
 export const UserSchema: Schema = new Schema({
     name: {
         type: String,
-        required: false,
+        required: true,
     },
     username: {
         type: String,

@@ -1,9 +1,9 @@
 import request from 'supertest';
 
 import app from '../../app';
+import { transValidation } from '../../lang/en';
 import { AuthService } from '../../services/auth.service';
 import { connectDB } from '../../config/connect_database';
-import { transErrors, transValidation } from '../../lang/en';
 import { DatabaseService } from '../../services/database.service';
 connectDB();
 

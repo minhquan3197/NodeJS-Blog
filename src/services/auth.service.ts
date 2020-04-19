@@ -40,7 +40,7 @@ export class AuthService {
      */
     static async register(data: IAuthRegisterInput): Promise<any> {
         // Init variable
-        const { username, password } = data;
+        const { username, password, name } = data;
         // Get user
         const user = await UserService.findUserByUsername(username);
         if (user) throw new MyError(transErrors.auth.account_in_use);
@@ -51,6 +51,7 @@ export class AuthService {
         let item: any = {
             username,
             password: hashPassword,
+            name,
         };
 
         // Check if not have user in database

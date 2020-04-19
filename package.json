@@ -9,7 +9,8 @@
         "start": "nodemon dist/index.js",
         "build": "tsc --watch --preserveWatchOutput",
         "dev": "concurrently \"npm:build\" \"npm:start\"",
-        "test": "cross-env NODE_ENV=test jest --watchAll --runInBand --detectOpenHandles"
+        "test": "cross-env NODE_ENV=test jest --runInBand --detectOpenHandles",
+        "test:watch": "cross-env NODE_ENV=test jest --watchAll --runInBand --detectOpenHandles"
     },
     "dependencies": {
         "bcryptjs": "^2.4.3",

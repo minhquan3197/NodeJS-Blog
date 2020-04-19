@@ -1,14 +1,14 @@
 import request from 'supertest';
 
 import app from '../../app';
-import { transErrors } from '../../lang/en';
 import { AuthService } from '../../services/auth.service';
 import { BlogService } from '../../services/blog.service';
 import { connectDB } from '../../config/connect_database';
 import { DatabaseService } from '../../services/database.service';
+import { transErrors } from '../../lang/en';
 connectDB();
 
-describe('DELETE /api/v1/blogs/:id', () => {
+describe('GET /api/v1/blogs/:id', () => {
     let token: any;
     let blogId: any;
     beforeEach(async () => {
@@ -32,38 +32,28 @@ describe('DELETE /api/v1/blogs/:id', () => {
         blogId = blog.id;
     });
 
-    it('Can remove blog', async () => {
-        const result: any = await request(app).delete(`/api/v1/blogs/${blogId}`).set('Authorization', token);
-        const { status, result_code, message } = result.body;
+    it('Can get detail blog', async () => {
+        const result: any = await request(app).get(`/api/v1/blogs/${blogId}`).set('Authorization', token);
+        const { status, result_code, message, data } = result.body;
         expect(result_code).toBe(200);
         expect(message).toBe('Ok');
         expect(status).toBe(true);
-        const blog: any = await request(app).get(`/api/v1/blogs/${blogId}`).set('Authorization', token);
-        expect(blog.body.message).toBe(transErrors.blog.not_found);
+        expect(data.name).toBe('test');
+        expect(data.content).toBe('test_content');
+        expect(data.image).toBe('test_image');
     });
 
-    it('Cannot remove blog without token', async () => {
-        const result: any = await request(app).delete(`/api/v1/blogs/${blogId}`);
+    it('Can get detail blog without token by auth', async () => {
+        const result: any = await request(app).get(`/api/v1/blogs/${blogId}`);
         expect(result.status).toBe(401);
     });
 
-    it('Cannot remove blog with wrong blog id', async () => {
-        const result: any = await request(app).delete(`/api/v1/blogs/${blogId}123`).set('Authorization', token);
-        const { status, result_code, message, data } = result.body;
-        expect(result_code).toBe(400);
-        expect(message).toBe(transErrors.system.object_id_invalid);
-        expect(data).toBeNull();
-        expect(status).toBe(false);
-    });
-
-    it('Cannot remove blog with wrong blog id not found', async () => {
-        const result: any = await request(app)
-            .delete(`/api/v1/blogs/5e9c48cf181e950bc8c3eead`)
-            .set('Authorization', token);
+    it('Can get detail blog without token by guest', async () => {
+        const result: any = await request(app).get(`/api/v1/node/${blogId}`);
         const { status, result_code, message, data } = result.body;
         expect(result_code).toBe(400);
         expect(message).toBe(transErrors.blog.not_found);
-        expect(data).toBeNull();
         expect(status).toBe(false);
+        expect(data).toBeNull();
     });
 });

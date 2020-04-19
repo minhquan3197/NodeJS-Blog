@@ -5,6 +5,7 @@ export interface IBlog extends Document {
     content: string;
     image: string;
     status: boolean;
+    created_by: any;
     created_at: number;
     updated_at: number;
 }
@@ -49,7 +50,7 @@ BlogSchema.statics = {
         if (selectField) query.select(customFind);
         return query
             .sort({ _id: -1 })
-            .populate('users', { name: 'name' })
+            .populate('created_by', { name: 'name', username: 'username', avatar: 'avatar' })
             .skip(limit * page - limit)
             .limit(limit);
     },
