@@ -21,6 +21,10 @@ export const initRoutes = (app: express.Application) => {
 
     // Blog
     router.get('/blogs', passport.authenticate('jwt', { session: false }), BlogController.index);
+    router.post('/blogs', passport.authenticate('jwt', { session: false }), BlogController.create);
+    router.get('/blogs/:_id', passport.authenticate('jwt', { session: false }), BlogController.detail);
+    router.put('/blogs/:_id', passport.authenticate('jwt', { session: false }), BlogController.update);
+    router.delete('/blogs/:_id', passport.authenticate('jwt', { session: false }), BlogController.remove);
 
     // User
     router.get('/auth', passport.authenticate('jwt', { session: false }), AuthController.auth);
@@ -28,6 +32,7 @@ export const initRoutes = (app: express.Application) => {
 
     // Public api fetch blog
     router.get('/node', BlogController.index);
+    router.get('/node/:id', BlogController.detail);
 
     return app.use('/api/v1', router);
 };

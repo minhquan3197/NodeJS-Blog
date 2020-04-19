@@ -1,6 +1,6 @@
-# Project Online Chatting System
+# Project Core NodeJS
 
-Project chatting using nodejs with framework expressjs and typescript programming language.
+Project core nodejs using nodejs with framework expressjs and typescript programming language.
 
 ## Getting started
 
@@ -15,7 +15,7 @@ webiste: https://nodejs.org/
 
 ```
 Mongodb
-website: https://www.mongodb.com/ 
+website: https://www.mongodb.com/
 ```
 
 ```
@@ -24,6 +24,7 @@ website: https://yarnpkg.com/
 ```
 
 ### Installing
+
 ```
 1. Copy file .env.example to .env
 2. Setup environment config in file .env
@@ -33,18 +34,22 @@ website: https://yarnpkg.com/
 ```
 
 ### Running the tests
-Incomming
+
+```
+1. When you completed install step
+2. Run CMD `yarn test`
+```
 
 ## Built with
-* [Typescript](https://www.typescriptlang.org/) - The programming language used
-* [MongoDB](https://www.mongodb.com/) - The database used
-* [Express.js](https://expressjs.com/) - The web framework used
-* [Socket.IO](https://socket.io/) - The library realtiime used
-* [Mongoose.js](https://mongoosejs.com/) - The ODM Framework for Mongodb used
-* [Passport.js](https://rometools.github.io/rome/) - The module authentication middleware for Node.js
-* [NPM](https://maven.apache.ohttps://www.npmjs.com/) - Node package manager
+
+-   [Typescript](https://www.typescriptlang.org/) - The programming language used
+-   [MongoDB](https://www.mongodb.com/) - The javascript database used
+-   [Express.js](https://expressjs.com/) - The javascript web framework used
+-   [Mongoose.js](https://mongoosejs.com/) - The javascript ODM Framework for Mongodb used
+-   [Passport.js](https://rometools.github.io/rome/) - The module authentication middleware for Node.js
+-   [Jest.js](https://jestjs.io/) - The javascript testing framework used
+-   [NPM](https://www.npmjs.com/) - Node package manager
 
 ## Authors
 
-* **Nguyễn Minh Quân** - *Developer* - [Profile](https://minhquan3197.github.io/)
-
+-   **Nguyễn Minh Quân** - _Developer_ - [Profile](https://minhquan3197.github.io/)
