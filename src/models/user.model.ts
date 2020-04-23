@@ -15,8 +15,6 @@ export interface IUser extends Document {
 export interface IUserModel extends Model<IUser> {
     changePassword(id: string, hashedPassword: string): IUser;
     comparePassword(inputPassword: string, userPassword: string): Promise<Boolean>;
-    pushBlogToUserBlogs(id: string, blogId: string): any;
-    pullBlogFromUser(id: string, blogId: string): any;
 }
 
 export const UserSchema: Schema = new Schema({
@@ -36,12 +34,6 @@ export const UserSchema: Schema = new Schema({
         type: String,
         default: 'https://res.cloudinary.com/kori/image/upload/v1545012923/no_avatar.png',
     },
-    blogs: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'blogs',
-        },
-    ],
     created_at: {
         type: Number,
         default: Date.now,
@@ -62,12 +54,6 @@ UserSchema.statics = {
     },
     async comparePassword(inputPassword: string, userPassword: string): Promise<Boolean> {
         return await compare(inputPassword, userPassword);
-    },
-    pushBlogToUserBlogs(id: string, blogId: string): any {
-        return this.findOneAndUpdate({ _id: id }, { $push: { blogs: blogId } }).exec();
-    },
-    pullBlogFromUser(id: string, blogId: string): any {
-        return this.findOneAndUpdate({ _id: id }, { $pull: { blogs: blogId } }).exec();
     },
 };
 

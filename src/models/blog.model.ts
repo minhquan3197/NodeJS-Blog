@@ -29,9 +29,9 @@ export const BlogSchema: Schema = new Schema({
         type: Boolean,
         default: false,
     },
-    created_by: {
+    category_id: {
         type: Schema.Types.ObjectId,
-        ref: 'users',
+        ref: 'categories',
     },
     created_at: {
         type: Number,
@@ -50,7 +50,7 @@ BlogSchema.statics = {
         if (selectField) query.select(customFind);
         return query
             .sort({ _id: -1 })
-            .populate('created_by', { name: 'name', username: 'username', avatar: 'avatar' })
+            .populate('category_id', { name: 'name' })
             .skip(limit * page - limit)
             .limit(limit);
     },
