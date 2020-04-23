@@ -5,7 +5,7 @@ export interface IBlog extends Document {
     content: string;
     image: string;
     status: boolean;
-    created_by: any;
+    category_id: any;
     created_at: number;
     updated_at: number;
 }

@@ -1,8 +1,8 @@
 import { transErrors } from '../lang/en';
 import config from '../config/constants';
 import { Blog } from '../models/blog.model';
-import { UserService } from './user.service';
 import { MyError } from '../utils/error.util';
+import { CategoryService } from './category.service';
 import { checkObjectId } from '../utils/function.util';
 
 export class BlogService {
@@ -46,19 +46,19 @@ export class BlogService {
     }
 
     /**
-     * This is function remove blog
+     * This is function create blog
      */
-    static async createBlog(userId: string, data: any): Promise<any> {
-        checkObjectId(userId);
+    static async createBlog(categoryId: string, data: any): Promise<any> {
+        checkObjectId(categoryId);
         const { name, content, image } = data;
         const item = {
             name: name,
             content: content,
             image: image,
-            created_by: userId,
+            category_id: categoryId,
         };
         const blog = await Blog.create(item);
-        await UserService.pushItemToUser(userId, blog._id);
+        await CategoryService.pushItem(categoryId, blog._id);
         return blog;
     }
 
@@ -67,9 +67,16 @@ export class BlogService {
      */
     static async updateBlog(blogId: string, item: any): Promise<any> {
         item.updated_at = Date.now();
+
         checkObjectId(blogId);
         const result = await Blog.findOneAndUpdate({ _id: blogId }, item).exec();
         if (!result) throw new MyError(transErrors.blog.not_found, 404);
+        if (item.category_id && item.category_id !== result.category_id) {
+            Promise.all([
+                CategoryService.pullItem(result.category_id, result._id),
+                CategoryService.pushItem(item.category_id, result._id),
+            ]);
+        }
         return result;
     }
 
@@ -82,10 +89,9 @@ export class BlogService {
             _id: id,
         };
         if (status) query.status = true;
+
         checkObjectId(id);
-        const result = await Blog.findOne(query)
-            .populate('created_by', { name: 'name', username: 'username', avatar: 'avatar' })
-            .exec();
+        const result = await Blog.findOne(query).populate('category_id', { name: 'name' }).exec();
         if (!result) throw new MyError(transErrors.blog.not_found, 404);
         return result;
     }
@@ -97,6 +103,7 @@ export class BlogService {
         checkObjectId(id);
         const result = await Blog.findOneAndRemove({ _id: id }).exec();
         if (!result) throw new MyError(transErrors.blog.not_found, 404);
+        await CategoryService.pullItem(result.category_id, result._id);
         return result;
     }
 
