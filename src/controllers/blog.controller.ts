@@ -1,6 +1,6 @@
 import { Response, Request } from 'express';
 
-import { transErrors } from '../lang/en';
+import { transErrors, transSuccess } from '../lang/en';
 import { BlogService } from '../services/blog.service';
 import { blogInput } from '../validations/blog.validation';
 import { dataError, dataSuccess } from '../utils/json.util';
@@ -59,7 +59,7 @@ export class BlogController {
         try {
             if (!user) res.send(dataError(transErrors.auth.permission_error));
             const result = await BlogService.createBlog(user._id, req.body);
-            return res.send(dataSuccess(result));
+            return res.send(dataSuccess(result, transSuccess.blog.blog_created(result.name)));
         } catch (error) {
             return res.send(dataError(error.message));
         }
@@ -80,7 +80,7 @@ export class BlogController {
         try {
             if (!user || !user.is_admin) res.send(dataError(transErrors.auth.permission_error));
             const result = await BlogService.updateBlog(req.params._id, req.body);
-            return res.send(dataSuccess(result));
+            return res.send(dataSuccess(result, transSuccess.blog.blog_updated(result.name)));
         } catch (error) {
             return res.send(dataError(error.message, null));
         }
@@ -96,7 +96,7 @@ export class BlogController {
         try {
             if (!user || !user.is_admin) res.send(dataError(transErrors.auth.permission_error));
             const result = await BlogService.removeBlog(req.params._id);
-            return res.send(dataSuccess(result));
+            return res.send(dataSuccess(result, transSuccess.blog.blog_deleted(result.name)));
         } catch (error) {
             return res.send(dataError(error.message, null));
         }

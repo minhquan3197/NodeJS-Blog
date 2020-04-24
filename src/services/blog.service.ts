@@ -22,10 +22,16 @@ export class BlogService {
             : config.paginate.default_page;
         const paginate = { limit, page };
 
+        // Query search
+        const categoryId = options.category_id ? options.category_id.trim() : null;
+        const name = options.name ? options.name.trim() : null;
+        const status = options.status ? options.status : null;
+
         // Custom field find
         let customFind: any = {};
-        const status = options.status || null;
         if (status) customFind.status = status;
+        if (categoryId) customFind.category_id = categoryId;
+        if (name) customFind.name = new RegExp('^' + name + '$', 'i');
 
         // Custom select field
         const selectField = options.select || null;

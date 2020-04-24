@@ -4,6 +4,7 @@ import passport from 'passport';
 import { AuthController } from '../controllers/auth.controller';
 import { HomeController } from '../controllers/home.controller';
 import { BlogController } from '../controllers/blog.controller';
+import { CategoryController } from '../controllers/category.controller';
 
 let router = express.Router();
 
@@ -26,6 +27,13 @@ export const initRoutes = (app: express.Application) => {
     router.get('/blogs/status/:_id', passport.authenticate('jwt', { session: false }), BlogController.status);
     router.put('/blogs/:_id', passport.authenticate('jwt', { session: false }), BlogController.update);
     router.delete('/blogs/:_id', passport.authenticate('jwt', { session: false }), BlogController.remove);
+
+    // Category
+    router.get('/categories', CategoryController.index);
+    router.post('/categories', passport.authenticate('jwt', { session: false }), CategoryController.create);
+    router.get('/categories/:_id', passport.authenticate('jwt', { session: false }), CategoryController.detail);
+    router.put('/categories/:_id', passport.authenticate('jwt', { session: false }), CategoryController.update);
+    router.delete('/categories/:_id', passport.authenticate('jwt', { session: false }), CategoryController.remove);
 
     // User
     router.get('/auth', passport.authenticate('jwt', { session: false }), AuthController.auth);
