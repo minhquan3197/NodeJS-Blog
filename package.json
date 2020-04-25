@@ -1,8 +1,8 @@
 {
-    "name": "blog-typescript",
+    "name": "typescript-core",
     "version": "1.0.0",
     "main": "index.js",
-    "repository": "https://github.com/minhquan3197/blog-typescript.git",
+    "repository": "https://github.com/minhquan3197/typescript-core.git",
     "author": "minhquan3197 <minhquan.k0r1@gmail.com>",
     "license": "MIT",
     "scripts": {
