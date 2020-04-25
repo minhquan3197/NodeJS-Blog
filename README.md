@@ -23,6 +23,11 @@ Yarn
 website: https://yarnpkg.com/
 ```
 
+```
+Typescript
+website: https://www.typescriptlang.org/
+```
+
 ### Installing
 
 ```
