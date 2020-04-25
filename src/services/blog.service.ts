@@ -23,10 +23,10 @@ export class BlogService {
         const paginate = { limit, page };
 
         // Query search
-        const categoryId = options.category_id ? options.category_id.trim() : null;
+        const categoryId = options.category ? options.category.trim() : null;
         const name = options.name ? options.name.trim() : null;
         const status = options.status ? options.status : null;
-
+    
         // Custom field find
         let customFind: any = {};
         if (status) customFind.status = status;
@@ -40,7 +40,7 @@ export class BlogService {
         const resultPaginate = await Blog.blogPaginate(paginate, customFind, selectField);
 
         // Total item
-        const totalItem = await this.countBlogs(options);
+        const totalItem = await this.countBlogs(customFind);
 
         const result = {
             data: resultPaginate,
@@ -54,17 +54,17 @@ export class BlogService {
     /**
      * This is function create blog
      */
-    static async createBlog(categoryId: string, data: any): Promise<any> {
-        checkObjectId(categoryId);
-        const { name, content, image } = data;
+    static async createBlog(data: any): Promise<any> {
+        const { name, content, image, category_id } = data;
+        checkObjectId(category_id);
         const item = {
             name: name,
             content: content,
             image: image,
-            category_id: categoryId,
+            category_id: category_id,
         };
         const blog = await Blog.create(item);
-        await CategoryService.pushItem(categoryId, blog._id);
+        await CategoryService.pushItem(category_id, blog._id);
         return blog;
     }
 
@@ -126,11 +126,8 @@ export class BlogService {
     /**
      * This is function count blog
      */
-    static async countBlogs(options: any): Promise<any> {
+    static async countBlogs(customFind: any): Promise<any> {
         // Custom field find
-        let customCount: any = {};
-        const status = options.status || null;
-        if (status) customCount.status = status;
-        return await Blog.countDocuments(customCount);
+        return await Blog.countDocuments(customFind);
     }
 }

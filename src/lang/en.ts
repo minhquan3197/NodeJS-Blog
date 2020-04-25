@@ -10,6 +10,7 @@ export const transValidation = {
         name_incorrect: 'Name is incorrect',
         content_incorrect: 'Content is incorrect',
         image_incorrect: 'Image is incorrect',
+        category_incorrect: 'Category is incorrect',
     },
     category: {
         name_incorrect: 'Name is incorrect',
@@ -45,7 +46,7 @@ export const transSuccess = {
     },
     user: {
         user_created: (username: string) => {
-            return `Account <strong>${username}</strong> created successfully`;
+            return `Account ${username} created successfully`;
         },
         user_password_updated: 'Password updated successfully',
     },
@@ -56,24 +57,24 @@ export const transSuccess = {
     },
     blog: {
         blog_created: (name: string) => {
-            return `Blog <strong>${name}</strong> created successfully`;
+            return `Blog ${name} created successfully`;
         },
         blog_updated: (name: string) => {
-            return `Blog <strong>${name}</strong> updated successfully`;
+            return `Blog ${name} updated successfully`;
         },
         blog_deleted: (name: string) => {
-            return `Blog <strong>${name}</strong> removed successfully`;
+            return `Blog ${name} removed successfully`;
         },
     },
     category: {
         category_created: (name: string) => {
-            return `Category <strong>${name}</strong> created successfully`;
+            return `Category ${name} created successfully`;
         },
         category_updated: (name: string) => {
-            return `Category <strong>${name}</strong> updated successfully`;
+            return `Category ${name} updated successfully`;
         },
         category_deleted: (name: string) => {
-            return `Category <strong>${name}</strong> removed successfully`;
+            return `Category ${name} removed successfully`;
         },
     },
 };

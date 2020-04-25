@@ -1,9 +1,9 @@
 import request from 'supertest';
 
 import app from '../../app';
-import { transValidation } from '../../lang/en';
 import { AuthService } from '../../services/auth.service';
 import { connectDB } from '../../config/connect_database';
+import { transValidation, transSuccess } from '../../lang/en';
 import { DatabaseService } from '../../services/database.service';
 connectDB();
 
@@ -27,7 +27,7 @@ describe('POST /api/v1/register', () => {
         });
         const { status, result_code, message, data } = result.body;
         expect(result_code).toBe(200);
-        expect(message).toBe('Ok');
+        expect(message).toBe(transSuccess.user.user_created('username_test'));
         expect(status).toBe(true);
         expect(data.is_admin).toBeTruthy();
         expect(data.username).toBe('username_test');

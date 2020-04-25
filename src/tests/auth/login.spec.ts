@@ -3,8 +3,8 @@ import request from 'supertest';
 import app from '../../app';
 import { AuthService } from '../../services/auth.service';
 import { connectDB } from '../../config/connect_database';
-import { transErrors, transValidation } from '../../lang/en';
 import { DatabaseService } from '../../services/database.service';
+import { transErrors, transValidation, transSuccess } from '../../lang/en';
 connectDB();
 
 describe('POST /api/v1/login', () => {
@@ -25,7 +25,7 @@ describe('POST /api/v1/login', () => {
         });
         const { status, result_code, message, data } = result.body;
         expect(result_code).toBe(200);
-        expect(message).toBe('Ok');
+        expect(message).toBe(transSuccess.auth.login_success('username_test'));
         expect(typeof data).toBe('string');
         expect(status).toBe(true);
     });

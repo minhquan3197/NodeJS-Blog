@@ -2,12 +2,13 @@ import request from 'supertest';
 
 import app from '../../app';
 import { transSuccess } from '../../lang/en';
-import { connectDB } from '../../config/connect_database';
 import { AuthService } from '../../services/auth.service';
+import { connectDB } from '../../config/connect_database';
 import { DatabaseService } from '../../services/database.service';
+import { CategoryService } from '../../services/category.service';
 connectDB();
 
-describe('GET /api/v1/auth', () => {
+describe('GET /api/v1/categories', () => {
     let token: string;
     beforeEach(async () => {
         await DatabaseService.refreshDatabaseForTesting();
@@ -21,28 +22,18 @@ describe('GET /api/v1/auth', () => {
             username: 'username_test',
             password: 'password_test',
         });
+        await CategoryService.createCategory({
+            name: 'test',
+        });
         token = 'Bearer ' + user;
     });
 
-    it('Can get user with token', async () => {
-        const result: any = await request(app).get('/api/v1/auth').set('Authorization', token);
+    it('Can get list categories', async () => {
+        const result: any = await request(app).get(`/api/v1/categories/`).set('Authorization', token);
         const { status, result_code, message, data } = result.body;
         expect(result_code).toBe(200);
         expect(message).toBe(transSuccess.system.success);
         expect(status).toBe(true);
-        expect(data.username).toBe('username_test');
-        expect(data.password).toBeUndefined();
-    });
-
-    it('Cannot get user without token', async () => {
-        const result: any = await request(app).get('/api/v1/auth');
-        expect(result.status).toBe(401);
-    });
-
-    it('Cannot get user with wrong token', async () => {
-        const result: any = await request(app)
-            .get('/api/v1/auth')
-            .set('Authorization', token + '123');
-        expect(result.status).toBe(401);
+        expect(data.length).toBe(1);
     });
 });

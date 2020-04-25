@@ -28,6 +28,7 @@ export class CategoryService {
      */
     static async updateCategory(categoryId: string, item: any): Promise<any> {
         item.updated_at = Date.now();
+        checkObjectId(categoryId);
         const result = await Category.findOneAndUpdate({ _id: categoryId }, item).exec();
         if (!result) throw new MyError(transErrors.category.not_found, 404);
         return result;
@@ -49,7 +50,7 @@ export class CategoryService {
     static async removeBlog(id: string): Promise<any> {
         checkObjectId(id);
         const result = await Category.findOneAndRemove({ _id: id }).exec();
-        if (!result) throw new MyError(transErrors.blog.not_found, 404);
+        if (!result) throw new MyError(transErrors.category.not_found, 404);
         return result;
     }
 

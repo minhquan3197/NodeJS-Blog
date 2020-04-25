@@ -58,7 +58,7 @@ export class BlogController {
 
         try {
             if (!user) res.send(dataError(transErrors.auth.permission_error));
-            const result = await BlogService.createBlog(user._id, req.body);
+            const result = await BlogService.createBlog(req.body);
             return res.send(dataSuccess(result, transSuccess.blog.blog_created(result.name)));
         } catch (error) {
             return res.send(dataError(error.message));

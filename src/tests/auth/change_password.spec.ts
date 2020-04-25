@@ -4,11 +4,11 @@ import app from '../../app';
 import { AuthService } from '../../services/auth.service';
 import { connectDB } from '../../config/connect_database';
 import { DatabaseService } from '../../services/database.service';
-import { transValidation, transErrors } from '../../lang/en';
+import { transValidation, transErrors, transSuccess } from '../../lang/en';
 connectDB();
 
 describe('POST /api/v1/change_password', () => {
-    let token: any;
+    let token: string;
     beforeEach(async () => {
         await DatabaseService.refreshDatabaseForTesting();
         await AuthService.register({
@@ -35,7 +35,7 @@ describe('POST /api/v1/change_password', () => {
             .set('Authorization', token);
         const { status, result_code, message, data } = result.body;
         expect(result_code).toBe(200);
-        expect(message).toBe('Ok');
+        expect(message).toBe(transSuccess.user.user_password_updated);
         expect(status).toBe(true);
         expect(data.username).toBe('username_test');
         expect(data.password).toBeUndefined();

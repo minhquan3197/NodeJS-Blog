@@ -1,17 +1,20 @@
 import request from 'supertest';
 
 import app from '../../app';
+import { transSuccess } from '../../lang/en';
 import { AuthService } from '../../services/auth.service';
 import { BlogService } from '../../services/blog.service';
 import { connectDB } from '../../config/connect_database';
 import { DatabaseService } from '../../services/database.service';
+import { CategoryService } from '../../services/category.service';
 connectDB();
 
 describe('GET /api/v1/blogs', () => {
-    let token: any;
+    let token: string;
+    let categoryId: string;
     beforeEach(async () => {
         await DatabaseService.refreshDatabaseForTesting();
-        const newUser = await AuthService.register({
+        await AuthService.register({
             name: 'Quan Nguyen',
             username: 'username_test',
             password: 'password_test',
@@ -21,11 +24,25 @@ describe('GET /api/v1/blogs', () => {
             username: 'username_test',
             password: 'password_test',
         });
-        await BlogService.createBlog(newUser._id, {
+        const category = await CategoryService.createCategory({
+            name: 'test category',
+        });
+        const category_2 = await CategoryService.createCategory({
+            name: 'test category 2',
+        });
+        await BlogService.createBlog({
             name: 'test',
             content: 'test_content',
             image: 'test_image',
+            category_id: category_2.id,
         });
+        await BlogService.createBlog({
+            name: 'test 2',
+            content: 'test_content',
+            image: 'test_image',
+            category_id: category.id,
+        });
+        categoryId = category_2.id;
         token = 'Bearer ' + user;
     });
 
@@ -34,7 +51,31 @@ describe('GET /api/v1/blogs', () => {
         const { status, result_code, message } = result.body;
         const { data, total_page, total_item } = result.body.data;
         expect(result_code).toBe(200);
-        expect(message).toBe('Ok');
+        expect(message).toBe(transSuccess.system.success);
+        expect(status).toBe(true);
+        expect(data.length).toBe(2);
+        expect(total_page).toBe(1);
+        expect(total_item).toBe(2);
+    });
+
+    it('Can get list blogs with by category', async () => {
+        const result: any = await request(app).get(`/api/v1/blogs?category=${categoryId}`).set('Authorization', token);
+        const { status, result_code, message } = result.body;
+        const { data, total_page, total_item } = result.body.data;
+        expect(result_code).toBe(200);
+        expect(message).toBe(transSuccess.system.success);
+        expect(status).toBe(true);
+        expect(data.length).toBe(1);
+        expect(total_page).toBe(1);
+        expect(total_item).toBe(1);
+    });
+
+    it('Can get list blogs with by name', async () => {
+        const result: any = await request(app).get(`/api/v1/blogs?name=test 2`).set('Authorization', token);
+        const { status, result_code, message } = result.body;
+        const { data, total_page, total_item } = result.body.data;
+        expect(result_code).toBe(200);
+        expect(message).toBe(transSuccess.system.success);
         expect(status).toBe(true);
         expect(data.length).toBe(1);
         expect(total_page).toBe(1);
@@ -51,7 +92,7 @@ describe('GET /api/v1/blogs', () => {
         const { status, result_code, message } = result.body;
         const { data, total_page, total_item } = result.body.data;
         expect(result_code).toBe(200);
-        expect(message).toBe('Ok');
+        expect(message).toBe(transSuccess.system.success);
         expect(status).toBe(true);
         expect(data.length).toBe(0);
         expect(total_page).toBe(0);

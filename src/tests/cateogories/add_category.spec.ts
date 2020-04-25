@@ -1,16 +1,14 @@
 import request from 'supertest';
 
 import app from '../../app';
-import { AuthService } from '../../services/auth.service';
-import { connectDB } from '../../config/connect_database';
 import { transValidation, transSuccess } from '../../lang/en';
-import { CategoryService } from '../../services/category.service';
+import { connectDB } from '../../config/connect_database';
+import { AuthService } from '../../services/auth.service';
 import { DatabaseService } from '../../services/database.service';
 connectDB();
 
-describe('POST /api/v1/blogs', () => {
+describe('POST /api/v1/categories', () => {
     let token: string;
-    let categoryId: string;
     beforeEach(async () => {
         await DatabaseService.refreshDatabaseForTesting();
         await AuthService.register({
@@ -19,64 +17,46 @@ describe('POST /api/v1/blogs', () => {
             password: 'password_test',
             password_confirmation: 'password_test',
         });
-        const category = await CategoryService.createCategory({
-            name: 'Test',
-        });
         const user = await AuthService.login({
             username: 'username_test',
             password: 'password_test',
         });
         token = 'Bearer ' + user;
-        categoryId = category.id;
     });
 
-    it('Can create blog', async () => {
+    it('Can create category', async () => {
         const result: any = await request(app)
-            .post('/api/v1/blogs')
+            .post('/api/v1/categories')
             .send({
                 name: 'test',
-                content: 'content_test',
-                image: 'image_test',
-                category_id: categoryId,
             })
             .set('Authorization', token);
         const { status, result_code, message, data } = result.body;
-        expect(result_code).toBe(200);
-        expect(message).toBe(transSuccess.blog.blog_created('test'));
-        expect(status).toBe(true);
-        expect(data.content).toBe('content_test');
         expect(data.name).toBe('test');
-        expect(data.image).toBe('image_test');
+        expect(result_code).toBe(200);
+        expect(message).toBe(transSuccess.category.category_created('test'));
+        expect(status).toBe(true);
     });
 
-    it('Cannot create blog without request body', async () => {
+    it('Cannot create category without request body', async () => {
         const result: any = await request(app)
-            .post('/api/v1/blogs')
+            .post('/api/v1/categories')
             .send({
                 name: '',
-                content: '',
-                image: '',
-                category_id: '',
             })
             .set('Authorization', token);
         const { status, result_code, message, data } = result.body;
         expect(result_code).toBe(400);
         expect(message).toEqual({
-            name: transValidation.blog.name_incorrect,
-            content: transValidation.blog.content_incorrect,
-            image: transValidation.blog.image_incorrect,
-            category_id: transValidation.blog.category_incorrect,
+            name: transValidation.category.name_incorrect,
         });
         expect(data).toBeNull();
         expect(status).toBe(false);
     });
 
-    it('Cannot create blog without token', async () => {
-        const result: any = await request(app).post('/api/v1/blogs').send({
+    it('Cannot create category without token', async () => {
+        const result: any = await request(app).post('/api/v1/categories').send({
             name: 'test',
-            content: 'content_test',
-            image: 'image_test',
-            category_id: categoryId,
         });
         expect(result.status).toBe(401);
     });
