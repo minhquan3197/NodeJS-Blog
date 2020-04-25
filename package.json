@@ -11,8 +11,7 @@
         "dev": "concurrently \"npm:build\" \"npm:start\"",
         "test": "cross-env NODE_ENV=test jest --runInBand --detectOpenHandles",
         "test:watch": "cross-env NODE_ENV=test jest --watchAll --runInBand --detectOpenHandles",
-        "test:single": "cross-env NODE_ENV=test jest blogs/list_blog.spec.ts --watchAll --runInBand --detectOpenHandles",
-        "postinstall": "npm run build"
+        "test:single": "cross-env NODE_ENV=test jest blogs/list_blog.spec.ts --watchAll --runInBand --detectOpenHandles"
     },
     "dependencies": {
         "bcryptjs": "^2.4.3",
