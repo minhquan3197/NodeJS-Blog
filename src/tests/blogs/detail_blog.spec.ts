@@ -4,16 +4,17 @@ import app from '../../app';
 import { AuthService } from '../../services/auth.service';
 import { BlogService } from '../../services/blog.service';
 import { connectDB } from '../../config/connect_database';
+import { transErrors, transSuccess } from '../../lang/en';
 import { DatabaseService } from '../../services/database.service';
-import { transErrors } from '../../lang/en';
+import { CategoryService } from '../../services/category.service';
 connectDB();
 
-describe('GET /api/v1/blogs/:id', () => {
-    let token: any;
-    let blogId: any;
+describe('GET /api/v1/caegories/:id', () => {
+    let token: string;
+    let blogId: string;
     beforeEach(async () => {
         await DatabaseService.refreshDatabaseForTesting();
-        const newUser = await AuthService.register({
+        await AuthService.register({
             name: 'Quan Nguyen',
             username: 'username_test',
             password: 'password_test',
@@ -23,10 +24,14 @@ describe('GET /api/v1/blogs/:id', () => {
             username: 'username_test',
             password: 'password_test',
         });
-        const blog = await BlogService.createBlog(newUser._id, {
+        const category = await CategoryService.createCategory({
+            name: 'test category',
+        });
+        const blog = await BlogService.createBlog({
             name: 'test',
             content: 'test_content',
             image: 'test_image',
+            category_id: category.id,
         });
         token = 'Bearer ' + user;
         blogId = blog.id;
@@ -36,11 +41,12 @@ describe('GET /api/v1/blogs/:id', () => {
         const result: any = await request(app).get(`/api/v1/blogs/${blogId}`).set('Authorization', token);
         const { status, result_code, message, data } = result.body;
         expect(result_code).toBe(200);
-        expect(message).toBe('Ok');
+        expect(message).toBe(transSuccess.system.success);
         expect(status).toBe(true);
         expect(data.name).toBe('test');
         expect(data.content).toBe('test_content');
         expect(data.image).toBe('test_image');
+        expect(data.category_id.name).toBe('test category');
     });
 
     it('Can get detail blog without token by auth', async () => {

@@ -1,19 +1,20 @@
 import request from 'supertest';
 
 import app from '../../app';
-import { transErrors } from '../../lang/en';
 import { AuthService } from '../../services/auth.service';
 import { BlogService } from '../../services/blog.service';
 import { connectDB } from '../../config/connect_database';
+import { transErrors, transSuccess } from '../../lang/en';
 import { DatabaseService } from '../../services/database.service';
+import { CategoryService } from '../../services/category.service';
 connectDB();
 
 describe('DELETE /api/v1/blogs/:id', () => {
-    let token: any;
-    let blogId: any;
+    let token: string;
+    let blogId: string;
     beforeEach(async () => {
         await DatabaseService.refreshDatabaseForTesting();
-        const newUser = await AuthService.register({
+        await AuthService.register({
             name: 'Quan Nguyen',
             username: 'username_test',
             password: 'password_test',
@@ -23,10 +24,14 @@ describe('DELETE /api/v1/blogs/:id', () => {
             username: 'username_test',
             password: 'password_test',
         });
-        const blog = await BlogService.createBlog(newUser._id, {
+        const category = await CategoryService.createCategory({
+            name: 'test category',
+        });
+        const blog = await BlogService.createBlog({
             name: 'test',
             content: 'test_content',
             image: 'test_image',
+            category_id: category.id,
         });
         token = 'Bearer ' + user;
         blogId = blog.id;
@@ -36,7 +41,7 @@ describe('DELETE /api/v1/blogs/:id', () => {
         const result: any = await request(app).delete(`/api/v1/blogs/${blogId}`).set('Authorization', token);
         const { status, result_code, message } = result.body;
         expect(result_code).toBe(200);
-        expect(message).toBe('Ok');
+        expect(message).toBe(transSuccess.blog.blog_deleted('test'));
         expect(status).toBe(true);
         const blog: any = await request(app).get(`/api/v1/blogs/${blogId}`).set('Authorization', token);
         expect(blog.body.message).toBe(transErrors.blog.not_found);

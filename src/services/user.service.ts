@@ -1,6 +1,4 @@
 import { User } from '../models/user.model';
-import { MyError } from '../utils/error.util';
-import { transErrors } from '../lang/en';
 
 export class UserService {
     constructor() {}
@@ -30,23 +28,5 @@ export class UserService {
      */
     static async countUserExists(): Promise<any> {
         return await User.countDocuments();
-    }
-
-    /**
-     * This is function push item to user
-     * @param idUser
-     * @param idItem
-     */
-    static async pushItemToUser(idUser: string, idItem: string): Promise<any> {
-        return await User.pushBlogToUserBlogs(idUser, idItem);
-    }
-
-    /**
-     * This is function push item to user
-     * @param idUser
-     * @param idItem
-     */
-    static async pullItemFromUser(idUser: string, idItem: string): Promise<any> {
-        return await User.pullBlogFromUser(idUser, idItem);
     }
 }

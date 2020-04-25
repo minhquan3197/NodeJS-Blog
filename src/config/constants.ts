@@ -21,7 +21,7 @@ export default {
         test: 'mongodb://localhost/blog-test',
     },
     key: {
-        secret: process.env.SECRET_OR_KEY || '',
+        secret: process.env.SECRET_OR_KEY || 'test',
         hash_password_length: 8,
     },
     paginate: {

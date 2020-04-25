@@ -2,9 +2,9 @@ import { Request, Response } from 'express';
 
 import { userFormat } from '../utils/format.util';
 import { AuthService } from '../services/auth.service';
+import { transErrors, transSuccess } from '../lang/en';
 import { dataError, dataSuccess } from '../utils/json.util';
 import { changePassword, login, register } from '../validations/auth.validation';
-import { transErrors } from '../lang/en';
 
 export class AuthController {
     constructor() {}
@@ -21,7 +21,7 @@ export class AuthController {
 
         try {
             const result = await AuthService.login(req.body);
-            return res.send(dataSuccess(result));
+            return res.send(dataSuccess(result, transSuccess.auth.login_success(req.body.username)));
         } catch (error) {
             return res.send(dataError(error.message));
         }
@@ -40,7 +40,7 @@ export class AuthController {
         try {
             const user = await AuthService.register(req.body);
             const result = userFormat(user);
-            return res.send(dataSuccess(result));
+            return res.send(dataSuccess(result, transSuccess.user.user_created(result.username)));
         } catch (error) {
             return res.send(dataError(error.message));
         }
@@ -74,7 +74,7 @@ export class AuthController {
         try {
             if (!user) res.send(dataError(transErrors.auth.permission_error));
             const result = await AuthService.updatePassword(user.id, req.body);
-            return res.send(dataSuccess(userFormat(result)));
+            return res.send(dataSuccess(userFormat(result), transSuccess.user.user_password_updated));
         } catch (error) {
             return res.send(dataError(error.message));
         }

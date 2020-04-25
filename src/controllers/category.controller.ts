@@ -1,26 +1,19 @@
 import { Response, Request } from 'express';
 
 import { transErrors, transSuccess } from '../lang/en';
-import { BlogService } from '../services/blog.service';
-import { blogInput } from '../validations/blog.validation';
 import { dataError, dataSuccess } from '../utils/json.util';
+import { CategoryService } from '../services/category.service';
+import { categoryInput } from '../validations/category.validation';
 
-export class BlogController {
+export class CategoryController {
     /**
-     * This is function get list blogs
+     * This is function get list categories
      * @param req
      * @param res
      */
     static async index(req: Request, res: Response): Promise<any> {
-        const options: any = req.query;
-        const user: any = req.user || null;
         try {
-            // If user is auth and have role is admin
-            if (!user) {
-                options.select = 'name image created_at';
-                options.status = true;
-            }
-            const result = await BlogService.fetchBlogs(options);
+            const result = await CategoryService.fetchCategories();
             return res.send(dataSuccess(result));
         } catch (error) {
             return res.send(dataError(error.message));
@@ -28,17 +21,13 @@ export class BlogController {
     }
 
     /**
-     * This is function get detail blog
+     * This is function get detail category
      * @param req
      * @param res
      */
     static async detail(req: Request, res: Response): Promise<any> {
-        const options: any = req.query;
-        const user: any = req.user || null;
         try {
-            // If user is not have auth and not have role is admin
-            if (!user) options.status = true;
-            const result = await BlogService.detailBlog(req.params._id, options);
+            const result = await CategoryService.detailCategory(req.params._id);
             return res.send(dataSuccess(result));
         } catch (error) {
             return res.send(dataError(error.message));
@@ -53,13 +42,13 @@ export class BlogController {
     static async create(req: Request, res: Response): Promise<any> {
         const user: any = req.user || null;
         // Check validation
-        const { errors, isValid } = blogInput(req.body);
+        const { errors, isValid } = categoryInput(req.body);
         if (!isValid) return res.send(dataError(errors));
 
         try {
             if (!user) res.send(dataError(transErrors.auth.permission_error));
-            const result = await BlogService.createBlog(req.body);
-            return res.send(dataSuccess(result, transSuccess.blog.blog_created(result.name)));
+            const result = await CategoryService.createCategory(req.body);
+            return res.send(dataSuccess(result, transSuccess.category.category_created(result.name)));
         } catch (error) {
             return res.send(dataError(error.message));
         }
@@ -74,13 +63,13 @@ export class BlogController {
         const user: any = req.user || null;
 
         // Check validation
-        const { errors, isValid } = blogInput(req.body);
+        const { errors, isValid } = categoryInput(req.body);
         if (!isValid) return res.send(dataError(errors));
 
         try {
             if (!user || !user.is_admin) res.send(dataError(transErrors.auth.permission_error));
-            const result = await BlogService.updateBlog(req.params._id, req.body);
-            return res.send(dataSuccess(result, transSuccess.blog.blog_updated(result.name)));
+            const result = await CategoryService.updateCategory(req.params._id, req.body);
+            return res.send(dataSuccess(result, transSuccess.category.category_updated(result.name)));
         } catch (error) {
             return res.send(dataError(error.message, null));
         }
@@ -95,24 +84,8 @@ export class BlogController {
         const user: any = req.user || null;
         try {
             if (!user || !user.is_admin) res.send(dataError(transErrors.auth.permission_error));
-            const result = await BlogService.removeBlog(req.params._id);
-            return res.send(dataSuccess(result, transSuccess.blog.blog_deleted(result.name)));
-        } catch (error) {
-            return res.send(dataError(error.message, null));
-        }
-    }
-
-    /**
-     * This is function change status blog
-     * @param req
-     * @param res
-     */
-    static async status(req: Request, res: Response): Promise<any> {
-        const user: any = req.user || null;
-        try {
-            if (!user || !user.is_admin) res.send(dataError(transErrors.auth.permission_error));
-            const result = await BlogService.changeStatusBlog(req.params._id);
-            return res.send(dataSuccess(result));
+            const result = await CategoryService.removeBlog(req.params._id);
+            return res.send(dataSuccess(result, transSuccess.category.category_deleted(result.name)));
         } catch (error) {
             return res.send(dataError(error.message, null));
         }

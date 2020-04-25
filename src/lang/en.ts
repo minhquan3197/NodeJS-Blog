@@ -10,6 +10,10 @@ export const transValidation = {
         name_incorrect: 'Name is incorrect',
         content_incorrect: 'Content is incorrect',
         image_incorrect: 'Image is incorrect',
+        category_incorrect: 'Category is incorrect',
+    },
+    category: {
+        name_incorrect: 'Name is incorrect',
     },
 };
 
@@ -31,6 +35,9 @@ export const transErrors = {
     blog: {
         not_found: 'Blog is not found',
     },
+    category: {
+        not_found: 'Category is not found',
+    },
 };
 
 export const transSuccess = {
@@ -39,26 +46,35 @@ export const transSuccess = {
     },
     user: {
         user_created: (username: string) => {
-            return `Tài khoản <strong>${username}</strong> đã được tạo thành công`;
+            return `Account ${username} created successfully`;
         },
-        avatar_updated: 'Cập nhật thành công.',
-        user_info_updated: 'Cập nhật thông tin người dùng thành công.',
+        user_password_updated: 'Password updated successfully',
     },
     auth: {
         login_success: (username: string) => {
-            return `Xin chào ${username}, chúc bạn một ngày tốt lành.`;
+            return `Hello ${username}, have a good day`;
         },
-        logout_success: 'Đăng xuất tài khoản thành công, hẹn gặp lại bạn :)',
     },
     blog: {
         blog_created: (name: string) => {
-            return `Bài viết <strong>${name}</strong> đã được tạo thành công`;
+            return `Blog ${name} created successfully`;
         },
         blog_updated: (name: string) => {
-            return `Bài viết <strong>${name}</strong> đã được cập nhật thành công`;
+            return `Blog ${name} updated successfully`;
         },
         blog_deleted: (name: string) => {
-            return `Xóa bài viết <strong>${name}</strong> thành công`;
+            return `Blog ${name} removed successfully`;
+        },
+    },
+    category: {
+        category_created: (name: string) => {
+            return `Category ${name} created successfully`;
+        },
+        category_updated: (name: string) => {
+            return `Category ${name} updated successfully`;
+        },
+        category_deleted: (name: string) => {
+            return `Category ${name} removed successfully`;
         },
     },
 };
