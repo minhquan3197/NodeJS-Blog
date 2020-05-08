@@ -6,7 +6,7 @@ services:
         volumes:
             - .:/app
         ports:
-            - '4000:4000'
+            - '80:80'
         environment:
             ENV_IDENTITY_HOST: 'mysql'
             ENV_IDENTITY_DATABASE: 'tester'
