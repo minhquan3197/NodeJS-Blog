@@ -12,8 +12,8 @@
         "dev": "concurrently \"npm:build\" \"npm:start\"",
         "cluster": "concurrently \"npm:build\" \"npm:cluster:mode\"",
         "test": "cross-env NODE_ENV=test jest --runInBand --detectOpenHandles",
-        "test:load": "loadtest -n 1000 -c 100 --rps 200 http://localhost:3000/api/v1",
-        "test:artillery": "artillery quick --count 10 -n 20 http://localhost:3000/api/v1",
+        "test:load": "loadtest -n 1000 -c 100 --rps 200 http://localhost:4000/api/v1",
+        "test:artillery": "artillery quick --count 10 -n 20 http://localhost:4000/api/v1",
         "test:watch": "cross-env NODE_ENV=test jest --watchAll --runInBand --detectOpenHandles",
         "test:single": "cross-env NODE_ENV=test jest blogs/list_blog.spec.ts --watchAll --runInBand --detectOpenHandles"
     },
