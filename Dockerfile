@@ -14,7 +14,7 @@ ENV NODE_ENV=production
 ENV APP_PORT=8200
 
 # Install global npm
-RUN npm install -g nodemon ts-node typescript
+RUN npm install -g nodemon ts-node typescript pm2
 
 # Create and copy directory source
 RUN mkdir -p /app
@@ -31,4 +31,6 @@ RUN ls -la /app
 VOLUME /app
 RUN tsc
 
+# Expose will open port between container with container in docker network
+# Expose not publish with host
 EXPOSE 8200

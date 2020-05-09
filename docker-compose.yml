@@ -7,34 +7,10 @@ services:
             - .:/app
         ports:
             - '8200:8200'
-        environment:
-            ENV_IDENTITY_HOST: 'mysql'
-            ENV_IDENTITY_DATABASE: 'tester'
-            ENV_IDENTITY_USERNAME: 'tester'
-            ENV_IDENTITY_PASSWORD: 'tester'
-            ENV_REDIS_HOST: 'redis'
-        links:
-            - redis
-            - mysql
+        depends_on:
+            - mongo
         tty: true
-    redis:
-        image: 'redis:latest'
+    mongo:
+        image: mongo
         ports:
-            - '6379:6379'
-    mysql:
-        image: 'mysql:8'
-        command: --default-authentication-plugin=mysql_native_password
-        restart: always
-        ports:
-            - '3306:3306'
-        volumes:
-            - /home/user/Projects/mysql:/var/lib/mysql
-        environment:
-            MYSQL_ROOT_PASSWORD: '123456'
-            MYSQL_DATABASE: 'plantsmart'
-    phpmyadmin:
-        image: phpmyadmin/phpmyadmin
-        links:
-            - mysql:db
-        ports:
-            - '8500:8500'
+        - "27017:27017"
