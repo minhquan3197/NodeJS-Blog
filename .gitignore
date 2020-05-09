@@ -6,3 +6,5 @@
 .env
 yarn.lock
 yarn-error.log
+credentials.json
+token.json
