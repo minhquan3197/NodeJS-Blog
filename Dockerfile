@@ -27,10 +27,14 @@ RUN npm install
 # Check file
 RUN ls -la /app
 
+CMD [ "tsc" ]
+CMD [ "pm2-runtime", "dev", "npm", "--", "dev" ]
+
 # Start app
 VOLUME /app
-RUN tsc
 
 # Expose will open port between container with container in docker network
 # Expose not publish with host
 EXPOSE 8200
+
+
