@@ -11,7 +11,6 @@ services:
             - 8000:8000
         links:
             - node:nodeserver
-        restart: always
     node:
         container_name: nodejs
         build: ./
@@ -20,10 +19,8 @@ services:
             - .:/app
         ports:
             - '8200:8200'
-        tty: true
     mongo:
         container_name: mongodb
         image: mongo
         ports:
             - '27017:27017'
-        restart: always

@@ -27,8 +27,6 @@ RUN npm install
 # Check file
 RUN ls -la /app
 
-CMD [ "tsc" ]
-CMD [ "pm2-runtime", "dev", "npm", "--", "dev" ]
 
 # Start app
 VOLUME /app
@@ -37,4 +35,5 @@ VOLUME /app
 # Expose not publish with host
 EXPOSE 8200
 
-
+CMD tsc
+CMD pm2-runtime start ecosystem.config.js
