@@ -9,8 +9,16 @@ services:
         ports:
             - '80:80'
         links:
-            - node:node
-    node:
+            - node1:node1
+            - node2:node2
+    node1:
+        build: ./
+        working_dir: /app
+        volumes:
+            - .:/app
+        links: 
+            - mongo
+    node2:
         build: ./
         working_dir: /app
         volumes:
