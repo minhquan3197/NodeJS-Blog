@@ -2,25 +2,22 @@ version: '3'
 
 services:
     web:
-        container_name: web
         build: ./docker/nginx
         volumes:
             - ./docker/nginx:/etc/nginx/conf.d/
             - .:/app
         ports:
-            - 8000:8000
+            - '80:80'
         links:
-            - node:nodeserver
+            - node:node
     node:
-        container_name: nodejs
         build: ./
         working_dir: /app
         volumes:
             - .:/app
-        ports:
-            - '8200:8200'
+        links: 
+            - mongo
     mongo:
-        container_name: mongodb
         image: mongo
         ports:
             - '27017:27017'

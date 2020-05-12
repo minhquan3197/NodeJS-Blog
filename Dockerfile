@@ -11,7 +11,7 @@ ENV DB_NAME=kori
 ENV DB_USERNAME=
 ENV DB_PASSWORD=
 ENV NODE_ENV=production
-ENV APP_PORT=8200
+ENV APP_PORT=5000
 
 # Install global npm
 RUN npm install -g nodemon ts-node typescript pm2
@@ -33,7 +33,7 @@ VOLUME /app
 
 # Expose will open port between container with container in docker network
 # Expose not publish with host
-EXPOSE 8200
+EXPOSE 5000
 
 CMD tsc
 CMD pm2-runtime start ecosystem.config.js
