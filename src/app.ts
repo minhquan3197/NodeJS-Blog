@@ -6,7 +6,9 @@ import passport from 'passport';
 import bodyParser from 'body-parser';
 
 import { initRoutes } from './routes/routes';
-import { initPassport } from './middlewares/passport.middleware';
+import { initPassport } from './middlewares/passport';
+import ErrorHandler from './middlewares/error-handler';
+import Response from './middlewares/Response';
 
 class App {
     public app: express.Application;
@@ -25,6 +27,8 @@ class App {
         this.app.use(morgan('combined'));
         this.app.use(bodyParser.urlencoded({ extended: true }));
         this.app.use(bodyParser.json());
+        this.app.use(Response);
+        this.app.use(ErrorHandler);
     };
 }
 

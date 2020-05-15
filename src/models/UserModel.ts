@@ -14,7 +14,7 @@ export interface IUser extends Document {
 
 export interface IUserModel extends Model<IUser> {
     changePassword(id: string, hashedPassword: string): IUser;
-    comparePassword(inputPassword: string, userPassword: string): Promise<Boolean>;
+    comparePassword(inputPassword: string, userPassword: string): Promise<boolean>;
 }
 
 export const UserSchema: Schema = new Schema({
@@ -48,14 +48,6 @@ export const UserSchema: Schema = new Schema({
     },
 });
 
-UserSchema.statics = {
-    changePassword(id: string, hashedPassword: string): IUser {
-        return this.findOneAndUpdate({ _id: id }, { password: hashedPassword }).exec();
-    },
-    async comparePassword(inputPassword: string, userPassword: string): Promise<Boolean> {
-        return await compare(inputPassword, userPassword);
-    },
-};
 
 export const User: IUserModel = model<IUser, IUserModel>('users', UserSchema);
 

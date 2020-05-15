@@ -9,7 +9,7 @@ import { transErrors, transSuccess } from '../lang/en';
 export function dataSuccess(
     data: any = null,
     message: string = transSuccess.system.success,
-    result_code: number = 200,
+    result_code = 200,
 ) {
     return {
         status: true,
@@ -28,7 +28,7 @@ export function dataSuccess(
 export function dataError(
     message: string = transErrors.system.server_error,
     data: any = null,
-    result_code: number = 400,
+    result_code = 400,
 ) {
     return {
         status: false,

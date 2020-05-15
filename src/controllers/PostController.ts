@@ -1,4 +1,4 @@
-import { Response, Request } from 'express';
+import { Response, Request, NextFunction } from 'express';
 
 import { transErrors, transSuccess } from '../lang/en';
 import { BlogService } from '../services/blog.service';
@@ -11,7 +11,7 @@ export class BlogController {
      * @param req
      * @param res
      */
-    static async index(req: Request, res: Response): Promise<any> {
+    static async index(req: Request, res: Response, next: NextFunction): Promise<any> {
         const options: any = req.query;
         const user: any = req.user || null;
         try {
@@ -21,6 +21,12 @@ export class BlogController {
                 options.status = true;
             }
             const result = await BlogService.fetchBlogs(options);
+            if (data instanceof BusinessError) {
+                next(data);
+            } else {
+                res.locals.data = data;
+                next();
+            }
             return res.send(dataSuccess(result));
         } catch (error) {
             return res.send(dataError(error.message));

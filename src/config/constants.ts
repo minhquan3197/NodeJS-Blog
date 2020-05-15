@@ -7,7 +7,7 @@ export default {
     env_server: {
         host: process.env.APP_HOST || 'localhost',
         port: Number(process.env.APP_PORT).valueOf() || 3000,
-        type: process.env.NODE_ENV || 'development',
+        type: process.env.NODE_ENV || 'local',
     },
     env_database: {
         username: process.env.DB_USERNAME || '',
@@ -23,7 +23,7 @@ export default {
         hash_password_length: 8,
     },
     paginate: {
-        default_limit: 8,
+        default_limit: 9,
         default_page: 1,
     },
 };

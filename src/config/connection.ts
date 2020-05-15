@@ -28,10 +28,12 @@ export const connectDB = () => {
         .connect(getDatabaseUri(), {
             useNewUrlParser: true,
             useUnifiedTopology: true,
-            useFindAndModify: false,
             useCreateIndex: true,
+            w: "majority",
         })
-        .then(() => {})
+        .then(() => {
+            console.log(`Connected database ${getDatabaseUri()} completed`);
+        })
         .catch(error => {
             console.log(error.message);
             process.exit(1);

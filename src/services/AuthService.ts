@@ -1,10 +1,10 @@
 import { transErrors } from '../lang/en';
-import { User } from '../models/user.model';
+import { User } from '../models/UserModel';
 import { sign } from '../helpers/jwt.helper';
 import { UserService } from './user.service';
 import { hash } from '../helpers/auth.helper';
 import { MyError } from '../utils/error.util';
-import { IAuthLoginInput, IAuthRegisterInput, IChangePasswordInput } from '../interfaces/auth.interface';
+import { IAuthLoginInput, IAuthRegisterInput, IChangePasswordInput } from '../interfaces/Auth';
 
 export class AuthService {
     constructor() {}
@@ -48,7 +48,7 @@ export class AuthService {
         // Generate password
         const hashPassword = await hash(password);
 
-        let item: any = {
+        const item: any = {
             username,
             password: hashPassword,
             name,
@@ -59,7 +59,7 @@ export class AuthService {
         if (!check) item.is_admin = true;
 
         // Create user object
-        let newUser = new User(item);
+        const newUser = new User(item);
 
         // Save user database
         return await newUser.save();

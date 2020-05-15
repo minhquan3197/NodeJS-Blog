@@ -3,6 +3,9 @@ FROM node:10.16.3
 RUN rm -rf /var/lib/apt/lists/* && apt-get update -y
 RUN apt-get install -y telnet vim git nano
 
+# Environment
+ENV NODE_ENV=development
+
 # Install global npm
 RUN npm install -g nodemon ts-node typescript pm2
 

@@ -32,7 +32,7 @@ export function checkObjectId(...ids: Array<any>) {
  * @param string
  */
 export function revereString(string: string): string {
-    let result: any = [];
+    const result: any = [];
     for (let index = string.length - 1; index >= 0; index -= 1) {
         result.push(string[index]);
     }
@@ -45,7 +45,7 @@ export function revereString(string: string): string {
  */
 export function flatten(arr: any = []) {
     let result: any = [];
-    for (let item of arr) {
+    for (const item of arr) {
         if (Array.isArray(item)) {
             result = result.concat(flatten(item));
         } else {

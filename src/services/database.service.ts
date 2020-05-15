@@ -1,6 +1,6 @@
 import config from '../config/constants';
-import { User } from '../models/user.model';
-import { Blog } from '../models/blog.model';
+import { User } from '../models/UserModel';
+import { Blog } from '../models/PostModel';
 import Category from '../models/category.model';
 import { ENVIRONMENT_TYPE } from '../utils/enum.util';
 export class DatabaseService {

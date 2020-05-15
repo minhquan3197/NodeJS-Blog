@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 
 import { userFormat } from '../utils/format.util';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../services/AuthService';
 import { transErrors, transSuccess } from '../lang/en';
 import { dataError, dataSuccess } from '../utils/json.util';
 import { changePassword, login, register } from '../validations/auth.validation';

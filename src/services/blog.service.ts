@@ -1,6 +1,6 @@
 import { transErrors } from '../lang/en';
 import config from '../config/constants';
-import { Blog } from '../models/blog.model';
+import { Blog } from '../models/PostModel';
 import { MyError } from '../utils/error.util';
 import { CategoryService } from './category.service';
 import { checkObjectId } from '../utils/function.util';
@@ -28,7 +28,7 @@ export class BlogService {
         const status = options.status ? options.status : null;
     
         // Custom field find
-        let customFind: any = {};
+        const customFind: any = {};
         if (status) customFind.status = status;
         if (categoryId) customFind.category_id = categoryId;
         if (name) customFind.name = new RegExp('^' + name + '$', 'i');
@@ -91,7 +91,7 @@ export class BlogService {
      */
     static async detailBlog(id: string, options: any): Promise<any> {
         const status = options.status || false;
-        let query: any = {
+        const query: any = {
             _id: id,
         };
         if (status) query.status = true;
