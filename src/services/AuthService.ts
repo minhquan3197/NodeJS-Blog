@@ -1,19 +1,31 @@
 import { transErrors } from '../lang/en';
-import { User } from '../models/UserModel';
-import { sign } from '../helpers/jwt.helper';
-import { UserService } from './user.service';
-import { hash } from '../helpers/auth.helper';
-import { MyError } from '../utils/error.util';
-import { IAuthLoginInput, IAuthRegisterInput, IChangePasswordInput } from '../interfaces/Auth';
+import { sign } from '../config/jwt';
+import { hash } from 'bcryptjs';
+import BaseService from './BaseService';
+import Models from '../models';
 
-export class AuthService {
-    constructor() {}
+export class AuthService extends BaseService {
+    private static instance: AuthService;
+
+    private userModel: typeof Models.UserModel;
+
+    constructor() {
+        super();
+        this.userModel = Models.UserModel;
+    }
+
+    public static get getInstance(): AuthService {
+        if (!AuthService.instance) {
+            AuthService.instance = new AuthService();
+        }
+        return AuthService.instance;
+    }
 
     /**
      * This is function login
      * @param data
      */
-    static async login(data: IAuthLoginInput): Promise<any> {
+    public async login(payload: IAuthLoginInput): Promise<any> {
         const { username, password } = data;
 
         // Get user

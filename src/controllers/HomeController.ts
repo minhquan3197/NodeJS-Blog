@@ -1,6 +1,6 @@
 import { Response, Request } from 'express';
 
-import { HomeService } from '../services/home.service';
+import { HomeService } from '../services/HomeService';
 import { dataError, dataSuccess } from '../utils/json.util';
 
 export class HomeController {

@@ -1,80 +1,61 @@
 export const transValidation = {
     auth: {
-        username_incorrect: 'Username is incorrect',
-        password_incorrect: 'Password is incorrect',
-        password_confirmation_incorrect: 'Password confirmation is incorrect',
-        old_password_incorrect: 'Old password is incorrect',
-        name_incorrect: 'Name is incorrect',
+        usernameIncorrect: 'Username is incorrect',
+        passwordIncorrect: 'Password is incorrect',
+        passwordConfirmationIncorrect: 'Password confirmation is incorrect',
+        oldPasswordIncorrect: 'Old password is incorrect',
+        nameIncorrect: 'Name is incorrect',
     },
-    blog: {
-        name_incorrect: 'Name is incorrect',
-        content_incorrect: 'Content is incorrect',
-        image_incorrect: 'Image is incorrect',
-        category_incorrect: 'Category is incorrect',
+    post: {
+        nameIncorrect: 'Name is incorrect',
+        userIncorrect: 'Category is incorrect',
     },
-    category: {
-        name_incorrect: 'Name is incorrect',
-    },
-};
+}
 
 export const transErrors = {
     system: {
-        server_error: 'Server error',
-        object_id_invalid: 'Id is invalid',
+        serverError: 'Server error',
+        objectIdInvalid: 'Id is invalid',
     },
     auth: {
-        account_in_use: 'Username already exists',
-        login_failed: 'The username or password is incorrect',
-        user_current_password_failed: 'Password is incorrect',
-        account_undefined: 'Username is not found',
-        permission_error: 'You not have permission',
+        accountInUse: 'Username already exists',
+        loginFailed: 'The username or password is incorrect',
+        userCurrentPasswordFailed: 'Password is incorrect',
+        accountUndefined: 'Username is not found',
+        permissionError: 'You not have permission',
     },
     user: {
-        user_not_found: 'User is not found',
+        notFound: 'User is not found',
     },
-    blog: {
-        not_found: 'Blog is not found',
+    post: {
+        notFound: 'Blog is not found',
     },
-    category: {
-        not_found: 'Category is not found',
-    },
-};
+}
 
 export const transSuccess = {
     system: {
         success: 'Ok',
     },
     user: {
-        user_created: (username: string) => {
-            return `Account ${username} created successfully`;
+        userCreated: (username: string) => {
+            return `Account ${username} created successfully`
         },
-        user_password_updated: 'Password updated successfully',
+        userPasswordUpdated: 'Password updated successfully',
     },
     auth: {
-        login_success: (username: string) => {
-            return `Hello ${username}, have a good day`;
+        loginSuccess: (username: string) => {
+            return `Hello ${username}, have a good day`
         },
     },
     blog: {
-        blog_created: (name: string) => {
-            return `Blog ${name} created successfully`;
+        blogCreated: (name: string) => {
+            return `Blog ${name} created successfully`
         },
-        blog_updated: (name: string) => {
-            return `Blog ${name} updated successfully`;
+        blogUpdated: (name: string) => {
+            return `Blog ${name} updated successfully`
         },
-        blog_deleted: (name: string) => {
-            return `Blog ${name} removed successfully`;
-        },
-    },
-    category: {
-        category_created: (name: string) => {
-            return `Category ${name} created successfully`;
-        },
-        category_updated: (name: string) => {
-            return `Category ${name} updated successfully`;
-        },
-        category_deleted: (name: string) => {
-            return `Category ${name} removed successfully`;
+        blogDeleted: (name: string) => {
+            return `Blog ${name} removed successfully`
         },
     },
-};
+}

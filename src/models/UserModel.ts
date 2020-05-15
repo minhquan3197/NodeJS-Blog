@@ -1,54 +1,39 @@
-import { Schema, Model, model, Document } from 'mongoose';
+import { Schema, model, Document } from 'mongoose'
 
-import { compare } from '../helpers/auth.helper';
+import BaseSchema from './BaseModel'
+import { User } from '../interfaces/User'
 
-export interface IUser extends Document {
-    name: string;
-    username: string;
-    password: string;
-    avatar: string;
-    is_admin: boolean;
-    created_at: number;
-    updated_at: number;
+interface UserDocument extends User, Document {
+    createdAt: Date
+    updatedAt: Date
+    status: boolean
 }
 
-export interface IUserModel extends Model<IUser> {
-    changePassword(id: string, hashedPassword: string): IUser;
-    comparePassword(inputPassword: string, userPassword: string): Promise<boolean>;
-}
+export const UserSchema: Schema = new Schema(
+    {
+        name: {
+            type: String,
+            required: true,
+        },
+        username: {
+            type: String,
+            trim: true,
+            unique: true,
+        },
+        posts: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'posts',
+            },
+        ],
+        password: {
+            type: String,
+        },
+        ...BaseSchema,
+    },
+    { timestamps: true },
+)
 
-export const UserSchema: Schema = new Schema({
-    name: {
-        type: String,
-        required: true,
-    },
-    username: {
-        type: String,
-        trim: true,
-        unique: true,
-    },
-    password: {
-        type: String,
-    },
-    avatar: {
-        type: String,
-        default: 'https://res.cloudinary.com/kori/image/upload/v1545012923/no_avatar.png',
-    },
-    created_at: {
-        type: Number,
-        default: Date.now,
-    },
-    updated_at: {
-        type: Number,
-        default: null,
-    },
-    is_admin: {
-        type: Boolean,
-        default: false,
-    },
-});
+UserSchema.index({ name: 'text', username: 'text' })
 
-
-export const User: IUserModel = model<IUser, IUserModel>('users', UserSchema);
-
-export default User;
+export default model<UserDocument>('users', UserSchema)

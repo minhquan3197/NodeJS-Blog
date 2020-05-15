@@ -1,60 +1,29 @@
-import { Schema, Model, model, Document } from 'mongoose';
+import { Schema, model, Document } from 'mongoose'
 
+import BaseSchema from './BaseModel'
+import { Post } from '../interfaces/Post'
 
-interface BlogDocument extends IBlog, Document {
-    blogPaginate(pagiante: any, customFind: any, selectField: string): any;
-    changeStatus(idBlog: string): any;
+interface PostDocument extends Post, Document {
+    createdAt: Date
+    updatedAt: Date
+    status: boolean
 }
 
-export const BlogSchema: Schema = new Schema({
-    name: {
-        type: String,
+export const PostSchema: Schema = new Schema(
+    {
+        name: {
+            type: String,
+            required: true,
+        },
+        userId: {
+            type: Schema.Types.ObjectId,
+            ref: 'posts',
+        },
+        ...BaseSchema,
     },
-    content: {
-        type: String,
-    },
-    image: {
-        type: String,
-    },
-    status: {
-        type: Boolean,
-        default: false,
-    },
-    category_id: {
-        type: Schema.Types.ObjectId,
-        ref: 'categories',
-    },
-    created_at: {
-        type: Number,
-        default: Date.now,
-    },
-    updated_at: {
-        type: Number,
-        default: null,
-    },
-});
+    { timestamps: true },
+)
 
-// BlogSchema.statics = {
-//     blogPaginate(paginate: any, customFind: object, selectField: string): any {
-//         const { limit, page } = paginate;
-//         let query = this.find(customFind);
-//         if (selectField) query.select(customFind);
-//         return query
-//             .sort({ _id: -1 })
-//             .populate('category_id', { name: 'name' })
-//             .skip(limit * page - limit)
-//             .limit(limit);
-//     },
-//     changeStatus(id: string): any {
-//         return this.findOneAndUpdate({ _id: id }, { $set: { status: !this.status } }).exec();
-//     },
-// };
+PostSchema.index({ name: 'text' })
 
-UserSchema.index({
-    name: 'text',
-    address: 'text',
-    email: 'text',
-    phoneNumber: 'text',
-});
-
-export default model<IBlog, IBlogModel>('blogs', BlogSchema);
+export default model<PostDocument>('posts', PostSchema)
