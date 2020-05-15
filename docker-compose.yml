@@ -16,14 +16,14 @@ services:
         working_dir: /app
         volumes:
             - .:/app
-        links: 
+        links:
             - mongo
     node2:
         build: ./
         working_dir: /app
         volumes:
             - .:/app
-        links: 
+        links:
             - mongo
     mongo:
         image: mongo

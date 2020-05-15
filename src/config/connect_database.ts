@@ -8,16 +8,15 @@ import { ENVIRONMENT_TYPE } from '../utils/enum.util';
  * This is function get Uri database
  */
 export const getDatabaseUri = (): string => {
-    const { connection, username, password, host, name, port, local, test } = config.env_database;
-    const URL = `${connection}://${username}:${password}@${host}:${port}/${name}`;
+    const { docker, production, local, test } = config.env_database;
     const NODE_ENV = config.env_server.type;
     switch (NODE_ENV) {
         case ENVIRONMENT_TYPE.PROD:
-            return URL;
+            return production;
         case ENVIRONMENT_TYPE.TEST:
             return test;
         case ENVIRONMENT_TYPE.DEV:
-            return local;
+            return docker;
         default:
             return local;
     }
