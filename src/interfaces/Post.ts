@@ -1,8 +1,6 @@
-import { User } from './User'
-
 export interface Post {
-    name: string
-    userId: User
+    name: string;
+    userId: string;
 }
 
 export interface Posts extends Array<Post> {}

@@ -8,14 +8,15 @@ export const transValidation = {
     },
     post: {
         nameIncorrect: 'Name is incorrect',
-        userIncorrect: 'Category is incorrect',
+        userIncorrect: 'User is incorrect',
     },
-}
+};
 
 export const transErrors = {
     system: {
         serverError: 'Server error',
         objectIdInvalid: 'Id is invalid',
+        responseEmpty: 'Response is empty',
     },
     auth: {
         accountInUse: 'Username already exists',
@@ -28,9 +29,9 @@ export const transErrors = {
         notFound: 'User is not found',
     },
     post: {
-        notFound: 'Blog is not found',
+        notFound: 'Post is not found',
     },
-}
+};
 
 export const transSuccess = {
     system: {
@@ -38,24 +39,24 @@ export const transSuccess = {
     },
     user: {
         userCreated: (username: string) => {
-            return `Account ${username} created successfully`
+            return `Account ${username} created successfully`;
         },
         userPasswordUpdated: 'Password updated successfully',
     },
     auth: {
         loginSuccess: (username: string) => {
-            return `Hello ${username}, have a good day`
+            return `Hello ${username}, have a good day`;
         },
     },
-    blog: {
-        blogCreated: (name: string) => {
-            return `Blog ${name} created successfully`
+    post: {
+        postCreated: (name: string) => {
+            return `Post ${name} created successfully`;
         },
-        blogUpdated: (name: string) => {
-            return `Blog ${name} updated successfully`
+        postUpdated: (name: string) => {
+            return `Post ${name} updated successfully`;
         },
-        blogDeleted: (name: string) => {
-            return `Blog ${name} removed successfully`
+        postDeleted: (name: string) => {
+            return `Post ${name} removed successfully`;
         },
     },
-}
+};

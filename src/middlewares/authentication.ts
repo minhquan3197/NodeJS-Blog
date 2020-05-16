@@ -1,6 +1,7 @@
-import * as jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
-import InternalError from './error-handler/internal';
+
+import InternalError from './errors/internal';
+import { verify } from '../config/jwt';
 
 class Authentication {
     private static instance: Authentication;
@@ -20,7 +21,7 @@ class Authentication {
         let jwtPayload: string | object;
 
         try {
-            jwtPayload = jwt.verify(token, process.env.JWT_SKEY);
+            jwtPayload = verify(token);
             res.locals.jwtPayload = jwtPayload;
             console.log(jwtPayload);
             return next();

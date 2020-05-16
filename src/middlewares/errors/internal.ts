@@ -1,8 +1,8 @@
-import CustomError from './custom';
-import Logger from '../../services/Logger';
+import CustomError from '../../config/error';
+import Logger from '../../config/Logger';
 
 class InternalError extends CustomError {
-    constructor(error: Error) {
+    constructor(error: Error | any) {
         super(error.message);
         const callerLine = error.stack.split('\n')[4];
         const index = callerLine.indexOf('at ');
