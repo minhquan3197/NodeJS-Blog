@@ -1,10 +1,7 @@
-import { Post } from './Post';
-
 export interface User {
     name: string;
-    username: boolean;
+    username: string;
     password: string;
-    posts: Array<Post>;
 }
 
 export interface Login {

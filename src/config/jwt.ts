@@ -7,7 +7,7 @@ import config from '../config/constants';
  */
 export const sign = (obj: object) => {
     return new Promise((resolve: any, reject: any) => {
-        jwt.sign(obj, config.key.secret, { expiresIn: '2 days' }, (error: any, token: string) => {
+        jwt.sign(obj, config.key.secret, { expiresIn: '2 days' }, (error: any, token: any) => {
             if (error) return reject(error);
             resolve(token);
         });
@@ -16,10 +16,9 @@ export const sign = (obj: object) => {
 
 /**
  * This is function verify token
- * If you use passport, you can not use this function
  * @param token
  */
-export const verify = (token: string | undefined) => {
+export const verify = (token: string | any) => {
     return new Promise((resolve: any, reject: any) => {
         jwt.verify(token, config.key.secret, (error: any, obj: any) => {
             if (error) return reject(error);

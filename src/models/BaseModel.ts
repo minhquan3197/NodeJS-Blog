@@ -1,15 +1,11 @@
 const BaseSchema = {
     createdAt: {
-        type: Date,
+        type: Number,
         default: Date.now,
     },
     updatedAt: {
-        type: Date,
+        type: Number,
         default: Date.now,
-    },
-    status: {
-        type: Boolean,
-        default: false,
     },
 };
 

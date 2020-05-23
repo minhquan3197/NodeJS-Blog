@@ -1,8 +1,11 @@
 import { transErrors } from '../lang/en';
 import { sign } from '../config/jwt';
-import { hash } from 'bcryptjs';
+import { hash, compare } from 'bcryptjs';
 import BaseService from './BaseService';
 import Models from '../models';
+import { Login, Register, ChangePassword } from '../interfaces/User';
+import BusinessError from '../middlewares/errors/business';
+import config from '../config/constants';
 
 export class AuthService extends BaseService {
     private static instance: AuthService;
@@ -23,82 +26,74 @@ export class AuthService extends BaseService {
 
     /**
      * This is function login
-     * @param data
+     * @param payload
      */
-    public async login(payload: IAuthLoginInput): Promise<any> {
-        const { username, password } = data;
+    async login(payload: Login): Promise<any> {
+        const { username, password } = payload;
 
-        // Get user
-        const user = await UserService.findUserByUsername(username);
-        if (!user) throw new MyError(transErrors.auth.login_failed);
         // Compare password
-        const isMatch = await User.comparePassword(password, user.password);
-        if (!isMatch) throw new MyError(transErrors.auth.login_failed);
+        const user = await this.userModel.findOne({ username });
+        if (!user) return new BusinessError(transErrors.auth.loginFailed, 400);
+        const isMatch = compare(password, user.password);
+        if (!isMatch) return new BusinessError(transErrors.auth.loginFailed, 400);
 
         // Encode token
-        const payload = {
+        const data = {
             id: user.id,
             name: user.name,
-            avatar: user.avatar,
             username: user.username,
         };
-        const token = await sign(payload);
+        const token = await sign(data);
         return token;
     }
 
     /**
      * This is function register
-     * @param data
+     * @param payload
      */
-    static async register(data: IAuthRegisterInput): Promise<any> {
+    async register(payload: Register): Promise<any> {
         // Init variable
-        const { username, password, name } = data;
+        const { username, password, name } = payload;
         // Get user
-        const user = await UserService.findUserByUsername(username);
-        if (user) throw new MyError(transErrors.auth.account_in_use);
+        const user = await this.userModel.findOne({ username });
+        if (!user) return new BusinessError(transErrors.auth.loginFailed, 400);
 
         // Generate password
-        const hashPassword = await hash(password);
+        const hashPassword = await hash(password, config.key.hash_password_length);
 
-        const item: any = {
+        const objectUser: any = {
             username,
             password: hashPassword,
             name,
         };
 
-        // Check if not have user in database
-        const check = await UserService.countUserExists();
-        if (!check) item.is_admin = true;
-
         // Create user object
-        const newUser = new User(item);
+        const newUser = await this.userModel.create(objectUser);
 
         // Save user database
-        return await newUser.save();
+        return newUser;
     }
 
     /**
      * Update user password
-     * @param id
-     * @param password
+     * @param user_id
+     * @param payload
      */
-    static async updatePassword(user_id: string, data: IChangePasswordInput): Promise<any> {
+    async updatePassword(user_id: string, payload: ChangePassword): Promise<any> {
         // Init variable
-        const { old_password, password } = data;
+        const { oldPassword, password } = payload;
 
         // Get user
-        const user = await UserService.findUserById(user_id);
-        if (!user) throw new MyError(transErrors.user.user_not_found);
-
-        // Compare password
-        const isMatch = await User.comparePassword(old_password, user.password);
-        if (!isMatch) throw new MyError(transErrors.auth.user_current_password_failed);
+        const user = await this.userModel.findOne({ _id: user_id });
+        if (!user) return new BusinessError(transErrors.user.notFound, 404);
+        const isMatch = compare(oldPassword, user.password);
+        if (!isMatch) return new BusinessError(transErrors.auth.userCurrentPasswordFailed, 400);
 
         // Generate password
-        const hashPassword = await hash(password);
+        const hashPassword = await hash(password, config.key.hash_password_length);
 
         // Update password
-        const updatedPassword = await User.changePassword(user.id, hashPassword);
+        const updatedPassword = await user.updateOne({ password: hashPassword });
         return updatedPassword;
     }
 }

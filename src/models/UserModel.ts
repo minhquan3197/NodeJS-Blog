@@ -20,12 +20,6 @@ export const UserSchema: Schema = new Schema(
             trim: true,
             unique: true,
         },
-        posts: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: 'posts',
-            },
-        ],
         password: {
             type: String,
         },
