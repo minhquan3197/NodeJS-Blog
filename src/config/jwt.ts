@@ -18,7 +18,7 @@ export const sign = (obj: object) => {
  * This is function verify token
  * @param token
  */
-export const verify = (token: string | any) => {
+export const verify = async (token: string | any) => {
     return new Promise((resolve: any, reject: any) => {
         jwt.verify(token, config.key.secret, (error: any, obj: any) => {
             if (error) return reject(error);

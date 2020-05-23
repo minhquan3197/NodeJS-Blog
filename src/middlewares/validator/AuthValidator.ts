@@ -4,11 +4,9 @@ import { isEmpty } from '../../utils/function';
 import { transValidation } from '../../lang/en';
 import { Login, Register, ChangePassword } from '../../interfaces/User';
 
-export const login = (payload: Login) => {
-    let errors = <any>{};
-
-    let { username, password } = payload;
-
+export const loginValidate = (payload: Login) => {
+    const errors: any = {};
+    const { username = '', password = '' } = payload;
     if (validator.isEmpty(username)) {
         errors.username = transValidation.auth.usernameIncorrect;
     }
@@ -22,10 +20,10 @@ export const login = (payload: Login) => {
     };
 };
 
-export const register = (payload: Register) => {
-    let errors = <any>{};
+export const registerValidate = (payload: Register) => {
+    const errors: any = {};
 
-    let { name, username, password, passwordConfirmation } = payload;
+    const { name = '', username = '', password = '', passwordConfirmation = '' } = payload;
 
     if (validator.isEmpty(username)) {
         errors.username = transValidation.auth.usernameIncorrect;
@@ -52,10 +50,10 @@ export const register = (payload: Register) => {
     };
 };
 
-export const changePassword = (payload: ChangePassword) => {
-    let errors = <any>{};
+export const changePasswordValidate = (payload: ChangePassword) => {
+    const errors: any = {};
 
-    let { oldPassword, passwordConfirmation, password } = payload;
+    const { oldPassword = '', passwordConfirmation = '', password = '' } = payload;
 
     if (validator.isEmpty(oldPassword)) {
         errors.oldPassword = transValidation.auth.oldPasswordIncorrect;

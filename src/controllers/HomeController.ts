@@ -1,20 +1,29 @@
-import { Response, Request } from 'express';
+import { Response, Request, NextFunction } from 'express';
 
-import { HomeService } from '../services/HomeService';
-import { dataError, dataSuccess } from '../utils/json.util';
+import HomeService from '../services/HomeService';
 
-export class HomeController {
+class HomeController {
+    private static instance: HomeController;
+
+    public static get getInstance(): HomeController {
+        if (!HomeController.instance) {
+            HomeController.instance = new HomeController();
+        }
+        return HomeController.instance;
+    }
     /**
      * This is function test api
      * @param req
      * @param res
      */
-    static async index(req: Request, res: Response): Promise<any> {
+    public index(req: Request, res: Response, next: NextFunction): any {
         try {
-            const result = await HomeService.getHello();
-            return res.send(dataSuccess(result));
+            const result = HomeService.getHello();
+            res.locals.data = result;
+            next();
         } catch (error) {
-            return res.send(dataError(error.message));
+            next(error);
         }
     }
 }
+export default HomeController.getInstance;

@@ -1,4 +1,4 @@
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 
 class Logger {
     private static instance: Logger;
@@ -14,12 +14,10 @@ class Logger {
     }
 
     public success(content: any) {
-        /* eslint-disable */
         console.log(chalk.bgGreen.black(content));
     }
 
     public error(content: any) {
-        /* eslint-disable */
         console.log(chalk.bgRed.black(content));
     }
 }

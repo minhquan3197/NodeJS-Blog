@@ -1,9 +1,8 @@
 import express from 'express';
-import passport from 'passport';
 
-import { AuthController } from '../controllers/AuthController';
-import { HomeController } from '../controllers/HomeController';
-import { BlogController } from '../controllers/PostController';
+import AuthController from '../controllers/AuthController';
+import HomeController from '../controllers/HomeController';
+import authentication from '../middlewares/Authentication';
 
 const router = express.Router();
 
@@ -18,9 +17,10 @@ export const initRoutes = (app: express.Application) => {
     // Auth
     router.post('/login', AuthController.login);
     router.post('/register', AuthController.register);
-    
+
     // User
-    router.get('/auth', [passport.authenticate('jwt', { session: false })], AuthController.auth);
+    router.get('/auth', authentication, AuthController.auth);
+    router.post('/password', authentication, AuthController.changePassword);
 
     return app.use('/api/v1', router);
 };

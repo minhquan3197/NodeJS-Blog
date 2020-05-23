@@ -4,12 +4,12 @@ import * as dotenv from 'dotenv';
 // Dotenv
 dotenv.config();
 export default {
-    env_server: {
+    envServer: {
         host: process.env.APP_HOST || 'localhost',
         port: Number(process.env.APP_PORT).valueOf() || 3000,
         type: process.env.NODE_ENV || 'local',
     },
-    env_database: {
+    envDatabase: {
         username: process.env.DB_USERNAME || '',
         password: process.env.DB_PASSWORD || '',
         local: 'mongodb://localhost/blog' || '',
@@ -20,10 +20,10 @@ export default {
     },
     key: {
         secret: process.env.SECRET_OR_KEY || 'test',
-        hash_password_length: 8,
+        hashPasswordLength: 8,
     },
     paginate: {
-        default_limit: 9,
-        default_page: 1,
+        defaultLimit: 9,
+        defaultPage: 1,
     },
 };

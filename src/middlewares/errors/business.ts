@@ -1,10 +1,9 @@
-import CustomError from '../../config/error';
-
-class BusinessError extends CustomError {
+class BusinessError extends Error {
     code: number;
 
     constructor(message: string, code: number) {
-        super(message);
+        super();
+        this.message = message;
         this.code = code;
     }
 }

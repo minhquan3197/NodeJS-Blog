@@ -1,32 +1,32 @@
-import mongoose from 'mongoose'
-import bluebird from 'bluebird'
+import mongoose from 'mongoose';
+import bluebird from 'bluebird';
 
-import config from './constants'
-import { EnvironmentType } from '../utils/enums'
-
+import config from './constants';
+import Logger from './logger';
+import { EnvironmentType } from '../utils/enums';
 /**
  * This is function get Uri database
  */
 export const getDatabaseUri = (): string => {
-    const { docker, production, local, test } = config.env_database
-    const NODE_ENV = config.env_server.type
+    const { docker, production, local, test } = config.envDatabase;
+    const NODE_ENV = config.envServer.type;
     switch (NODE_ENV) {
         case EnvironmentType.PROD:
-            return production
+            return production;
         case EnvironmentType.TEST:
-            return test
+            return test;
         case EnvironmentType.DEV:
-            return docker
+            return docker;
         default:
-            return local
+            return local;
     }
-}
+};
 
 /**
  * This is function connection database
  */
 export const connectDB = () => {
-    mongoose.Promise = bluebird
+    mongoose.Promise = bluebird;
     mongoose
         .connect(getDatabaseUri(), {
             useNewUrlParser: true,
@@ -35,10 +35,10 @@ export const connectDB = () => {
             w: 'majority',
         })
         .then(() => {
-            console.log(`Connected database ${getDatabaseUri()} completed`)
+            Logger.success(`Connected database ${getDatabaseUri()} completed`);
         })
         .catch(error => {
-            console.log(error.message)
-            process.exit(1)
-        })
-}
+            console.log(error.message);
+            process.exit(1);
+        });
+};

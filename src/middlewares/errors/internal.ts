@@ -1,12 +1,12 @@
-import CustomError from '../../config/error';
 import Logger from '../../config/Logger';
 
-class InternalError extends CustomError {
+class InternalError extends Error {
     constructor(error: Error | any) {
-        super(error.message);
+        super();
         const callerLine = error.stack.split('\n')[4];
         const index = callerLine.indexOf('at ');
         const clean = callerLine.slice(index + 2, callerLine.length);
+        this.message = error.message;
         Logger.error(clean);
     }
 }

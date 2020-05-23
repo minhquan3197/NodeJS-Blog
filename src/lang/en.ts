@@ -6,10 +6,6 @@ export const transValidation = {
         oldPasswordIncorrect: 'Old password is incorrect',
         nameIncorrect: 'Name is incorrect',
     },
-    post: {
-        nameIncorrect: 'Name is incorrect',
-        userIncorrect: 'User is incorrect',
-    },
 };
 
 export const transErrors = {
@@ -24,12 +20,10 @@ export const transErrors = {
         userCurrentPasswordFailed: 'Password is incorrect',
         accountUndefined: 'Username is not found',
         permissionError: 'You not have permission',
+        authenticationFailed: 'Authentication failed',
     },
     user: {
         notFound: 'User is not found',
-    },
-    post: {
-        notFound: 'Post is not found',
     },
 };
 
@@ -46,17 +40,6 @@ export const transSuccess = {
     auth: {
         loginSuccess: (username: string) => {
             return `Hello ${username}, have a good day`;
-        },
-    },
-    post: {
-        postCreated: (name: string) => {
-            return `Post ${name} created successfully`;
-        },
-        postUpdated: (name: string) => {
-            return `Post ${name} updated successfully`;
-        },
-        postDeleted: (name: string) => {
-            return `Post ${name} removed successfully`;
         },
     },
 };

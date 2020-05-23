@@ -39,13 +39,6 @@ website: https://www.typescriptlang.org/
 6. Run CMD `yarn dev` to start promgram
 ```
 
-### Running the tests
-
-```
-1. When you completed install step
-2. Run CMD `yarn test`
-```
-
 ### Runing the pm2
 
 ```
@@ -59,10 +52,12 @@ website: https://www.typescriptlang.org/
 -   [MongoDB](https://www.mongodb.com/) - The javascript database used
 -   [Express.js](https://expressjs.com/) - The javascript web framework used
 -   [Mongoose.js](https://mongoosejs.com/) - The javascript ODM Framework for Mongodb used
--   [Passport.js](https://rometools.github.io/rome/) - The module authentication middleware for Node.js
 -   [PM2](https://pm2.keymetrics.io/) - Process manager for Node.js
--   [Jest.js](https://jestjs.io/) - The javascript testing framework used
 -   [NPM](https://www.npmjs.com/) - Node package manager
+-   [Eslint](https://eslint.org/) - Find and fix problems in your JavaScript code
+-   [Webpack](https://webpack.js.org/) - Node module bundler
+-   [Nginx](https://www.nginx.com/) - Web server
+-   [Docker](https://www.docker.com/) - Create environment
 
 ## Authors
 

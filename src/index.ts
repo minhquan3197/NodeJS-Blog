@@ -1,10 +1,10 @@
 import app from './app';
+import Logger from './config/logger';
 import config from './config/constants';
 import { connectDB } from './config/connection';
-import Logger from './services/Logger';
 
 // Server environment
-const PORT = config.env_server.port;
+const PORT = config.envServer.port;
 
 // Connect database
 connectDB();

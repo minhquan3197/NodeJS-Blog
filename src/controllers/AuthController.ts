@@ -1,29 +1,39 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 
-import { userFormat } from '../utils/format.util';
-import { AuthService } from '../services/AuthService';
-import { transErrors, transSuccess } from '../lang/en';
-import { dataError, dataSuccess } from '../utils/json.util';
-import { changePassword, login, register } from '../validations/auth.validation';
+import { transErrors } from '../lang/en';
+import AuthService from '../services/AuthService';
+import BusinessError from '../middlewares/errors/business';
+import { loginValidate, registerValidate, changePasswordValidate } from '../middlewares/validator/AuthValidator';
 
-export class AuthController {
-    constructor() {}
+class AuthController {
+    private static instance: AuthController;
+
+    public static get getInstance(): AuthController {
+        if (!AuthController.instance) {
+            AuthController.instance = new AuthController();
+        }
+        return AuthController.instance;
+    }
 
     /**
      * This is function login
      * @param req
      * @param res
      */
-    static async login(req: Request, res: Response): Promise<any> {
-        // Check validation
-        const { errors, isValid } = login(req.body);
-        if (!isValid) return res.send(dataError(errors));
+    public async login(req: Request, res: Response, next: NextFunction): Promise<any> {
+        const { errors, isValid } = loginValidate(req.body);
+        if (!isValid) next(errors);
 
         try {
             const result = await AuthService.login(req.body);
-            return res.send(dataSuccess(result, transSuccess.auth.login_success(req.body.username)));
+            if (result instanceof BusinessError) {
+                next(result);
+            } else {
+                res.locals.data = result;
+                next();
+            }
         } catch (error) {
-            return res.send(dataError(error.message));
+            next(error);
         }
     }
 
@@ -32,17 +42,20 @@ export class AuthController {
      * @param req
      * @param res
      */
-    static async register(req: Request, res: Response): Promise<any> {
-        // Check validation
-        const { errors, isValid } = register(req.body);
-        if (!isValid) return res.send(dataError(errors));
+    async register(req: Request, res: Response, next: NextFunction): Promise<any> {
+        const { errors, isValid } = registerValidate(req.body);
+        if (!isValid) next(errors);
 
         try {
-            const user = await AuthService.register(req.body);
-            const result = userFormat(user);
-            return res.send(dataSuccess(result, transSuccess.user.user_created(result.username)));
+            const result = await AuthService.register(req.body);
+            if (result instanceof BusinessError) {
+                next(result);
+            } else {
+                res.locals.data = result;
+                next();
+            }
         } catch (error) {
-            return res.send(dataError(error.message));
+            next(error);
         }
     }
 
@@ -51,12 +64,13 @@ export class AuthController {
      * @param req
      * @param res
      */
-    static auth(req: Request, res: Response): any {
+    auth(req: Request, res: Response, next: NextFunction): any {
         try {
-            const result = userFormat(req.user);
-            return res.send(dataSuccess(result));
+            const result = res.locals.jwtPayload;
+            res.locals.data = result;
+            next();
         } catch (error) {
-            return res.send(dataError(error.message));
+            next(error);
         }
     }
 
@@ -65,18 +79,24 @@ export class AuthController {
      * @param req
      * @param res
      */
-    static async changePassword(req: Request, res: Response): Promise<any> {
-        const user: any = req.user || null;
+    async changePassword(req: Request, res: Response, next: NextFunction): Promise<any> {
+        const user: any = res.locals.jwtPayload || null;
         // Check validation
-        const { errors, isValid } = changePassword(req.body);
-        if (!isValid) return res.send(dataError(errors));
+        const { errors, isValid } = changePasswordValidate(req.body);
+        if (!isValid) next(errors);
 
         try {
-            if (!user) res.send(dataError(transErrors.auth.permission_error));
+            if (!user) return new BusinessError(transErrors.auth.permissionError, 401);
             const result = await AuthService.updatePassword(user.id, req.body);
-            return res.send(dataSuccess(userFormat(result), transSuccess.user.user_password_updated));
+            if (result instanceof BusinessError) {
+                next(result);
+            } else {
+                res.locals.data = result;
+                next();
+            }
         } catch (error) {
-            return res.send(dataError(error.message));
+            next(error);
         }
     }
 }
+export default AuthController.getInstance;

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { ExpressJoiError } from 'express-joi-validation';
+
 import InternalError from './internal';
 import BusinessError from './business';
 
@@ -12,7 +12,7 @@ enum ContainerTypes {
 }
 
 const ErrorHandler = (
-    error: InternalError | ExpressJoiError | BusinessError,
+    error: InternalError | BusinessError,
     req: Request,
     res: Response,
     /* eslint-disable */
