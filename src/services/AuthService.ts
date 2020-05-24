@@ -5,8 +5,8 @@ import { sign } from '../config/jwt';
 import BaseService from './BaseService';
 import config from '../config/constants';
 import { transErrors } from '../lang/en';
+import { Login, Register } from '../interfaces/User';
 import BusinessError from '../middlewares/errors/business';
-import { Login, Register, ChangePassword } from '../interfaces/User';
 
 class AuthService extends BaseService {
     private static instance: AuthService;
@@ -36,7 +36,7 @@ class AuthService extends BaseService {
         const user = await this.userModel.findOne({ username });
         if (!user) return new BusinessError(transErrors.auth.loginFailed, 400);
         const isMatch = await compare(password, user.password);
-        console.log(isMatch)
+        console.log(isMatch);
         if (!isMatch) return new BusinessError(transErrors.auth.loginFailed, 400);
 
         // Encode token
@@ -73,29 +73,6 @@ class AuthService extends BaseService {
 
         // Save user database
         return newUser;
-    }
-
-    /**
-     * Update user password
-     * @param userId
-     * @param payload
-     */
-    async updatePassword(userId: string, payload: ChangePassword): Promise<any> {
-        // Init variable
-        const { oldPassword, password } = payload;
-
-        // Get user
-        const user = await this.userModel.findOne({ _id: userId });
-        if (!user) return new BusinessError(transErrors.user.notFound, 404);
-        const isMatch = compare(oldPassword, user.password);
-        if (!isMatch) return new BusinessError(transErrors.auth.userCurrentPasswordFailed, 400);
-
-        // Generate password
-        const hashPassword = await hash(password, config.key.hashPasswordLength);
-
-        // Update password
-        const updatedPassword = await user.updateOne({ password: hashPassword });
-        return updatedPassword;
     }
 }
 export default AuthService.getInstance;

@@ -1,6 +1,7 @@
 import express from 'express';
 
 import AuthController from '../controllers/AuthController';
+import UserContorller from '../controllers/UserContorller';
 import HomeController from '../controllers/HomeController';
 import authentication from '../middlewares/Authentication';
 
@@ -17,10 +18,10 @@ export const initRoutes = (app: express.Application) => {
     // Auth
     router.post('/login', AuthController.login);
     router.post('/register', AuthController.register);
+    router.get('/auth', authentication, AuthController.auth);
 
     // User
-    router.get('/auth', authentication, AuthController.auth);
-    router.post('/password', authentication, AuthController.changePassword);
+    router.post('/password', authentication, UserContorller.changePassword);
 
     return app.use('/api/v1', router);
 };

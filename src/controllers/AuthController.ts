@@ -1,9 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 
-import { transErrors } from '../lang/en';
 import AuthService from '../services/AuthService';
 import BusinessError from '../middlewares/errors/business';
-import { loginValidate, registerValidate, changePasswordValidate } from '../middlewares/validator/AuthValidator';
+import { loginValidate, registerValidate } from '../middlewares/validator/AuthValidator';
 
 class AuthController {
     private static instance: AuthController;
@@ -69,31 +68,6 @@ class AuthController {
             const result = res.locals.jwtPayload;
             res.locals.data = result;
             next();
-        } catch (error) {
-            next(error);
-        }
-    }
-
-    /**
-     * Change password user
-     * @param req
-     * @param res
-     */
-    async changePassword(req: Request, res: Response, next: NextFunction): Promise<any> {
-        const user: any = res.locals.jwtPayload || null;
-        // Check validation
-        const { errors, isValid } = changePasswordValidate(req.body);
-        if (!isValid) next(errors);
-
-        try {
-            if (!user) return new BusinessError(transErrors.auth.permissionError, 401);
-            const result = await AuthService.updatePassword(user.id, req.body);
-            if (result instanceof BusinessError) {
-                next(result);
-            } else {
-                res.locals.data = result;
-                next();
-            }
         } catch (error) {
             next(error);
         }
