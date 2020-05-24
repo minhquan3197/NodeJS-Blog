@@ -6,7 +6,6 @@ import { User } from '../interfaces/User'
 interface UserDocument extends User, Document {
     createdAt: Date;
     updatedAt: Date;
-    status: boolean;
 }
 
 export const UserSchema: Schema = new Schema(
